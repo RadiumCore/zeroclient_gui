@@ -1,0 +1,40 @@
+﻿.title {
+    display: block;
+    border-top: 4px solid #a7a59b;
+    background-color: #f6e9d9;
+    height: 22px;
+    line-height: 22px;
+    padding: 4px 6px;
+    font-size: 14px;
+    color: #000;
+    margin-bottom: 13px;
+    clear: both;
+}
+
+    .title .date {
+        float: right
+    }
+
+    .title .name {
+        float: left
+    }
+
+/* Heart of the matter */
+
+.ten-columns .col-sm-2 {
+    width: 20%;
+}
+
+/* Decorations */
+.col-sm-2 {
+    background: #f93;
+    color: #fff;
+    font-size: 28px;
+    font-weight: bold;
+    min-height: 150px;
+    padding-top: 6px;
+}
+
+    .col-sm-2:nth-of-type(even) {
+        background: #69c;
+    }
