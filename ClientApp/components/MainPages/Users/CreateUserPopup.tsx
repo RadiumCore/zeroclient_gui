@@ -83,6 +83,35 @@ export class CreateUserPopup extends React.Component<Props, CreateUserPopupState
         this.setState({ user: { ...this.state.user, username: name } });
     }
 
+    setError = (errorMessage: string) => {
+        this.setState({ info_title: "Data Error", info_body: errorMessage, show_info: true })
+    }
+
+    validate_custom_fields = (custom_fields: Array<customfield>) => {
+        if(custom_fields.length){
+            const result = custom_fields.reduce((store: Istore, {key}) => {
+                if(!(/^[\w]+$/.test(key))){
+                    store.invalidKeys.push(key)
+                }
+                store.keys.push(key)
+                return store
+            }, {
+                keys: [],
+                invalidKeys:[]
+            })
+            if(result.invalidKeys.length){
+                this.setError("You must enter a valid key for all custom fields")
+                return false
+            }
+            const uniqueKeys = new Set(result.keys)
+            if(uniqueKeys.size !== result.keys.length){
+                this.setError("You must ensure all custom fields have unique keys")
+                return false
+            }
+        }
+        return true
+    }
+
     validate() {
         if (this.state.user.address == "" || this.state.user.address == null) {
             this.setState({ info_title: "Data Error", info_body: "You must create a new address", show_info: true })
@@ -98,6 +127,9 @@ export class CreateUserPopup extends React.Component<Props, CreateUserPopupState
             this.setState({ info_title: "Data Error", info_body: "You must enter a username!", show_info: true })
             return;
         }
+
+        const {custom_fields} = this.state.user;
+        if(!this.validate_custom_fields(custom_fields)){return };
 
         this.setState({ show_confirmation: true })
     }
@@ -265,4 +297,9 @@ interface custom {
     index: number,
     key: string,
     value: string
+}
+
+interface Istore {
+    keys: Array<string>,
+    invalidKeys: Array<string>
 }
