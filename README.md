@@ -1,3 +1,4 @@
+
 Radium development tree
 
 Radium is a PoS-based cryptocurrency.
@@ -29,3 +30,73 @@ in this manner will have their corresponding issue labeled 'stagnant'.
 Issues with no commits will be given a similar warning, and closed after
 15 days from their last activity. Issues closed in this manner will be 
 labeled 'stale'.
+
+Project Structure. 
+===========================
+
+This project is written in Typescript and dot net Core (c#). 
+
+This project is a javascript web application that is locally hosted by a 
+Kestral server implemented in dot net Core. 
+
+
+The following files control 
+#### Kestral server settings and functions particularly SSL and Listen URL's
+
+- /Program.cs 
+- /Startup.cs
+
+#### Used by Webpack to build the main.js at runtime. 
+ - /webpack.config.js
+- /tsconfig.js
+
+
+#### Project Folders
+| Folder| Purpose|
+| ------ | ------ |
+|/Assets|Contains media, images, logos, etc|
+| /ClientApp |Contains the main GUI files <- Important stuff here|
+| /Controllers|Base files required by Kestrel |
+| /types |Typescript definitions needed for custom signing lib |
+| /Views |Base HTML files required by Kestrel |
+
+#### /ClientApp Folder
+| Folder| Purpose|
+| ------ | ------ |
+|/ClientApp/components | Contains most of the GUI files 
+|/ClientApp/css | GUI CSS files|
+|/ClientApp/boot.tsx |Loads main APP|
+|/ClientApp/routes.tsx |Links url routes to main GUI pages. |
+
+#### /ClientApp/components Folder
+| Folder| Purpose|
+| ------ | ------ |
+|/Global | Various GUI elements that are used in multiple locations.|
+|/Language |unfinished translations/localization|
+|/MainPages| Code for the main pages of the GUI|
+
+#### /ClientApp/components/Global  Files
+(self explanitory files omited)
+
+| FIle| Purpose|
+| ------ | ------ |
+|/Global/API.tsx | Static class used by all components to call the API to GET or POST data. |
+|/Global/settings.tsx | Static class that contains various global vars.|
+|/Global/SmartTxSendResultComponent.tsx | Handles the transaction signing and sending of signed smart transactions to the API.|
+
+#### /ClientApp/components/MainPages Folders
+(unused code folders omited)
+
+| Folder| Purpose|
+| ------ | ------ |
+|/MainPages/_interfaces| Reusable data structures|
+|/MainPages/AssetClasses| Asset Group GUI components|
+|/MainPages/Elections| Election GUI components|
+|/MainPages/Loading| Loading, Syncing, and API finding splash pages|
+|/MainPages/Login| Login and key generation components|
+|/MainPages/_interfaces| Asset Group GUI components|
+|/MainPages/MyProfile| Profile page GUI components|
+|/MainPages/NetworkStats| Stats page GUI components|
+|/MainPages/Records| Records page GUI components|
+|/MainPages/SignedMessages| Message signing page GUI components|
+|/MainPages/Users| Users page GUI components|
