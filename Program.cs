@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 
 namespace SmartChain.Web
@@ -12,9 +13,10 @@ namespace SmartChain.Web
     {
         public static string client_version = "1";
         public static ManualResetEvent shutdown_Event = new ManualResetEvent(false);
-
+        public static ConfigFileReader config1 = new ConfigFileReader();
         public static int language { get; set; } = 1;
-
+        private static X509Certificate2 cert;
+        private static bool useSSL = bool.Parse(config1.lookup("useSSL"));
         public static JArray listen_urls = new JArray();
         public static int listen_port = 80;
 
@@ -22,10 +24,38 @@ namespace SmartChain.Web
         {
             IConfigurationRoot config;
 
-            config = new ConfigurationBuilder()
-                                        .SetBasePath(Directory.GetCurrentDirectory())
-                                        .AddEnvironmentVariables()
-                                        .Build();
+            if (useSSL)
+            {
+                config = new ConfigurationBuilder()
+                             .SetBasePath(Directory.GetCurrentDirectory())
+                             .AddEnvironmentVariables()
+                             .AddJsonFile("certificate.json", optional: true, reloadOnChange: true)
+                             .AddJsonFile($"certificate.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true, reloadOnChange: true)
+                             .Build();
+
+                var certificateSettings = config.GetSection("certificateSettings");
+                string certificateFileName = certificateSettings.GetValue<string>("filename");
+                string certificatePassword = certificateSettings.GetValue<string>("password");
+
+                cert = new X509Certificate2(certificateFileName, certificatePassword);
+
+
+            }
+            else
+            {
+                config = new ConfigurationBuilder()
+                                            .SetBasePath(Directory.GetCurrentDirectory())
+                                            .AddEnvironmentVariables()
+                                            .Build();
+            }
+
+
+
+
+
+
+            listen_urls = JArray.Parse(config1.lookup("listens"));
+                                       
 
             // route all unhandled exceptions to the logger
             AppDomain currentDomain = AppDomain.CurrentDomain;
@@ -46,7 +76,7 @@ namespace SmartChain.Web
         public static IWebHost BuildWebHost(string[] args, IConfiguration config) =>
           WebHost.CreateDefaultBuilder(args)
             // swithc to easy turn off kestral to enable chrome debugging
-#if !DEBUG
+#if true
             .UseKestrel(
                 options =>
                 {

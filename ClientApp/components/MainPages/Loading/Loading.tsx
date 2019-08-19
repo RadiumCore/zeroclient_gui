@@ -45,6 +45,7 @@ export class Loading extends React.Component<LoadingProps, LoadingState> {
 
     tick() {
         api.GetSetupInfo((value: any) => { this.setState({ data: value }); })
+        this.props.callback(true);
         if (this.state.data.action == "complete") {
             this.props.callback(true);
         }

@@ -4,11 +4,12 @@ import t from '../../Language/Language'
 import * as statics from '../../Global/statics'
 import { TrueFalseIcon } from "../../Global/TrueFalseIcon"
 import * as api from '../../Global/API'
-import { Asset, asset_command } from '../_Interfaces/Assets'
+import { Asset, asset_command, AssetClass } from '../_Interfaces/Assets'
 import { Modal } from 'react-bootstrap'
+import { AssetClasses } from './AssetClasses';
 
 interface Props {
-    asset: Asset
+    class: AssetClass
     command: asset_command
 
     cancel_callback: any;
@@ -53,9 +54,9 @@ export class DestroyAssetClassPopupConfirmation extends React.Component<Props, S
 
                 <span>Destroy Asset</span>
                 <dl className="dl-horizontal">
-                    <dt>Asset Name :</dt> <dd>{this.props.asset.name}</dd>
-                    <dt>Asset Description :</dt> <dd>{this.props.asset.description}</dd>
-                    <dt>Asset ID :</dt> <dd>{this.props.asset.txid}</dd>
+                    <dt>Asset Name :</dt> <dd>{this.props.class.class_name}</dd>
+                    <dt>Asset Description :</dt> <dd>{this.props.class.class_description}</dd>
+                    <dt>Asset ID :</dt> <dd>{this.props.class.txid}</dd>
                     <dt>Asset Action:</dt> <dd>Testroy</dd>
 
                 </dl>

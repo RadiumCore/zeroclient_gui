@@ -4,11 +4,11 @@ import t from '../../Language/Language'
 import * as statics from '../../Global/statics'
 import { TrueFalseIcon } from "../../Global/TrueFalseIcon"
 import * as api from '../../Global/API'
-import { Asset, asset_command } from '../_Interfaces/Assets'
+import { Asset, asset_command, AssetClass } from '../_Interfaces/Assets'
 import { Modal } from 'react-bootstrap'
 
 interface Props {
-    asset: Asset
+    class: AssetClass
     command: asset_command
 
     cancel_callback: any;
@@ -52,8 +52,8 @@ export class TransferAssetClassPopupConfirmation extends React.Component<Props, 
 
                 <span>Transfer Asset</span>
                 <dl className="dl-horizontal">
-                    <dt>Asset Name :</dt> <dd>{this.props.asset.name}</dd>
-                    <dt>Asset Action:</dt> <dd>Transfer</dd>
+                    <dt>Class Name :</dt> <dd>{this.props.class.class_name}</dd>
+                    <dt>Class Action:</dt> <dd>Transfer</dd>
                     <dt>Destination:</dt> <dd>{this.props.command.destination!.username}</dd>
 
                 </dl>

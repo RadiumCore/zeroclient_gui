@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace SmartChain.Web
 {
@@ -14,6 +15,7 @@ namespace SmartChain.Web
         {
             Configuration = configuration;
         }
+        public static ConfigFileReader config = new ConfigFileReader();
 
         public IConfiguration Configuration { get; }
 
@@ -44,7 +46,11 @@ namespace SmartChain.Web
             app.UseCors("MyPolicy");
             // if we are using SSL, make sure we redirect all requests to our SSL port
             // see program.CS for more info and comments
-
+            if (bool.Parse(config.lookup("sslRedirection")))
+            {
+                app.UseHttpsRedirection();
+                Console.WriteLine("Use SSL Redirection enabled!");
+            }
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -68,10 +74,6 @@ namespace SmartChain.Web
             //applicationLifetime.ApplicationStopping.Register(OnShutdown);
         }
 
-        private void OnShutdown()
-        {
-            //Vars.WalletInterface.ShutdownWallet();
-            //this code is called when the application stops
-        }
+       
     }
 }
