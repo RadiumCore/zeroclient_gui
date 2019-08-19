@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import t from '../../Language/Language'
-import { Asset, asset_command, blank_asset_command, asset_command_type } from '../_Interfaces/Assets'
+import { Asset, asset_command, blank_asset_command, asset_command_type, AssetClass } from '../_Interfaces/Assets'
 import { InfoPopup } from '../../Global/InfoPopup'
 import * as Settings from '../../Global/settings'
 import { GetInputPopup } from '../../Global/GetInputPopup'
@@ -11,7 +11,7 @@ import * as settings from "../../Global/settings"
 import { SmartTxSendResultComponent } from "../../Global/SmartTxSendResultComponent"
 import { DestroyAssetClassPopupConfirmation } from './DestroyAssetClassPopupConfirmation';
 interface Props {
-    asset: Asset
+    class: AssetClass
     close_callback: any;
     sucess_callback: any;
     language: number;
@@ -51,7 +51,7 @@ export class DestroyAssetClassPopup extends React.Component<Props, State>{
             command: {
                 destination: undefined,
                 amount: undefined,
-                asset_id: this.props.asset.txid,
+                asset_id: this.props.class.txid,
                 command_type: asset_command_type.destroy,
             },
             confirm_name: "",
@@ -73,11 +73,11 @@ export class DestroyAssetClassPopup extends React.Component<Props, State>{
     }
 
     validate() {
-        if (this.props.asset.txid != this.state.confirm_id) {
+        if (this.props.class.txid != this.state.confirm_id) {
             this.setState({ show_info: true, info_title: "Error", info_body: "Confirmation ID does not match" })
             return;
         }
-        if (this.props.asset.name != this.state.confirm_name) {
+        if (this.props.class.class_name != this.state.confirm_name) {
             this.setState({ show_info: true, info_title: "Error", info_body: "Confirmation name does not match" })
             return;
         }
@@ -85,27 +85,22 @@ export class DestroyAssetClassPopup extends React.Component<Props, State>{
         // Destroy command validation
 
         // if base permission is false, then below operators are false.
-        var creator_destroy_ok: boolean = this.props.asset.can_creator_destroy;
-        var owner_destroy_ok: boolean = this.props.asset.can_owner_destroy;
-
-        // check current identity against creator
-        if (settings.current_identity.address != this.props.asset.creator.address) {
-            creator_destroy_ok = false;
-        }
-
+        
+        var owner_destroy_ok: boolean = this.props.class.class_can_owner_destroy;
+               
         // check current identity agains owner
-        if (this.props.asset.owner == undefined) {
+        if (this.props.class.owner == undefined) {
             //owner can't destory if owner is undefined
             owner_destroy_ok = false;
         }
         else {
             //assuming owner is defined
-            if (this.props.asset.owner.address != settings.current_identity.address) {
+            if (this.props.class.owner.address != settings.current_identity.address) {
                 owner_destroy_ok = false;
             }
         }
 
-        if (!creator_destroy_ok && !owner_destroy_ok) {
+        if (!owner_destroy_ok) {
             this.setState({ show_info: true, info_title: "Error", info_body: "You do not have the permissions to destroy this asset!" })
             return;
         }
@@ -130,7 +125,7 @@ export class DestroyAssetClassPopup extends React.Component<Props, State>{
 
     select_content() {
         if (this.state.show_confirmation) {
-            return <DestroyAssetClassPopupConfirmation asset={this.props.asset} command={this.state.command} cancel_callback={this.cancel_confirmation.bind(this)} continue_callback={this.send.bind(this)} language={this.props.language} />
+            return <DestroyAssetClassPopupConfirmation class={this.props.class} command={this.state.command} cancel_callback={this.cancel_confirmation.bind(this)} continue_callback={this.send.bind(this)} language={this.props.language} />
         }
         if (this.state.show_result) {
             console.log(this.state)
@@ -145,10 +140,10 @@ export class DestroyAssetClassPopup extends React.Component<Props, State>{
             <Modal.Header closeButton>
                 <Modal.Title>Destroy Asset</Modal.Title>
                 <dl className="dl-horizontal">
-                    <dt>Name :</dt> <dd>{this.props.asset.name}</dd>
-                    <dt>ID :</dt> <dd>{this.props.asset.txid}</dd>
-                    <dt>Owner :</dt> <dd>{this.props.asset.owner!.username}</dd>
-                    <dt>ID :</dt> <dd>{this.props.asset.creator.username}</dd>
+                    <dt>Name :</dt> <dd>{this.props.class.class_name}</dd>
+                    <dt>ID :</dt> <dd>{this.props.class.txid}</dd>
+                    <dt>Owner :</dt> <dd>{this.props.class.owner!.username}</dd>
+                    <dt>ID :</dt> <dd>{this.props.class.creator.username}</dd>
                 </dl>
 
             </Modal.Header>

@@ -1,13 +1,11 @@
 import * as React from 'react';
-
 import { NavMenu } from './NavMenu';
 import { Loading } from './MainPages/Loading/Loading';
-
+import { FindingAPI } from './MainPages/Loading/FindingAPI';
 import { SmartChainSyncing } from './MainPages/Loading/SmartChainSyncing';
 import * as settings from './Global/settings'
-import * as statics from './Global/statics'
 import * as api from './Global/API'
-import { Block, blank_block } from './MainPages/_Interfaces/iBLock'
+import { Block } from './MainPages/_Interfaces/iBLock'
 
 export interface LayoutProps {
     children?: React.ReactNode;
@@ -17,14 +15,20 @@ interface LayoutState {
     loadcomplete: boolean;
     sync_complete: boolean;
     intervaltick: number
+    api_set: boolean;
 }
+
 export class Layout extends React.Component<LayoutProps, LayoutState> {
     constructor(props: LayoutProps) {
         super(props);
-        this.state = { loadcomplete: false, sync_complete: false, intervaltick: 30000 }
+        this.state = { loadcomplete: false, sync_complete: false, intervaltick: 30000, api_set: false }
         window.addEventListener("beforeunload", (ev) => {
             ev.preventDefault();
         });
+        api.SetApi(() => {
+            this.setState({ api_set: true })
+        });        
+
         this.tick()
     }
 
@@ -43,6 +47,7 @@ export class Layout extends React.Component<LayoutProps, LayoutState> {
     re_render() {
         this.forceUpdate();
     }
+    
 
     LoadCompleteCallback(complete: boolean) {
         this.setState({ loadcomplete: complete })
@@ -54,6 +59,13 @@ export class Layout extends React.Component<LayoutProps, LayoutState> {
 
     public render() {
         let content
+
+        if (!this.state.api_set) {
+            let content = this.renderfindingAPI()
+            return <div className='container-fluid' >
+                {content}
+            </div>;
+        }
 
         if (!this.state.loadcomplete) {
             let content = this.renderloading()
@@ -72,6 +84,9 @@ export class Layout extends React.Component<LayoutProps, LayoutState> {
         return <div className='container-fluid'>
             {content}
         </div>;
+    }
+    renderfindingAPI() {
+        return <FindingAPI callback={null} />
     }
 
     renderloading() {

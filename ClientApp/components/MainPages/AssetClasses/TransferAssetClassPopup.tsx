@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import t from '../../Language/Language'
-import { Asset, asset_command, blank_asset_command, asset_command_type } from '../_Interfaces/Assets'
+import { Asset, asset_command, blank_asset_command, asset_command_type, AssetClass } from '../_Interfaces/Assets'
 import { InfoPopup } from '../../Global/InfoPopup'
 import * as Settings from '../../Global/settings'
 import { GetInputPopup } from '../../Global/GetInputPopup'
@@ -13,7 +13,7 @@ import { SmartTxSendResultComponent } from "../../Global/SmartTxSendResultCompon
 import { TransferAssetClassPopupConfirmation } from "./TransferAssetClassPopupConfirmation"
 
 interface Props {
-    asset: Asset
+    class: AssetClass
     close_callback: any;
     sucess_callback: any;
     language: number;
@@ -59,7 +59,7 @@ export class TransferAssetClassPopup extends React.Component<Props, State>{
             command: {
                 destination: undefined,
                 amount: undefined,
-                asset_id: this.props.asset.txid,
+                asset_id: this.props.class.txid,
                 command_type: asset_command_type.transfer,
             },
             show_select_user: false,
@@ -88,35 +88,35 @@ export class TransferAssetClassPopup extends React.Component<Props, State>{
     }
 
     validate() {
-        if (this.props.asset.txid != this.state.confirm_id) {
+        if (this.props.class.txid != this.state.confirm_id) {
             this.setState({ show_info: true, info_title: "Error", info_body: "Confirmation ID does not match" })
             return;
         }
-        if (this.props.asset.name != this.state.confirm_name) {
+        if (this.props.class.class_name != this.state.confirm_name) {
             this.setState({ show_info: true, info_title: "Error", info_body: "Confirmation name does not match" })
             return;
         }
 
         // chesks that asset is transferable
-        if (!this.props.asset.can_owner_transfer) {
-            this.setState({ show_info: true, info_title: "Error", info_body: "This asset is non-transferable!" })
+        if (!this.props.class.class_transferable) {
+            this.setState({ show_info: true, info_title: "Error", info_body: "This asset class is non-transferable!" })
             return;
         }
 
         let can_transfer: boolean = false
-        if (this.props.asset.can_owner_transfer) {
-            if (this.props.asset.owner!.address == settings.current_identity.address) {
+        if (this.props.class.class_transferable) {
+            if (this.props.class.owner!.address == settings.current_identity.address) {
                 can_transfer = true;
             }
         }
         if (!can_transfer) {
-            this.setState({ show_info: true, info_title: "Error", info_body: "You do not have permission to transfer this asset!" })
+            this.setState({ show_info: true, info_title: "Error", info_body: "You do not have permission to transfer this asset class!" })
             return;
         }
 
         // checks that destination is set
         if (this.state.command.destination == undefined) {
-            this.setState({ show_info: true, info_title: "Error", info_body: "You must select a person to transfer this asset to!" })
+            this.setState({ show_info: true, info_title: "Error", info_body: "You must select a person to transfer this asset class to!" })
             return;
         }
 
@@ -144,7 +144,7 @@ export class TransferAssetClassPopup extends React.Component<Props, State>{
 
     select_content() {
         if (this.state.show_confirmation) {
-            return <TransferAssetClassPopupConfirmation asset={this.props.asset} command={this.state.command} cancel_callback={() => this.setState({ show_confirmation: false })} continue_callback={this.send.bind(this)} language={this.props.language} />
+            return <TransferAssetClassPopupConfirmation class={this.props.class} command={this.state.command} cancel_callback={() => this.setState({ show_confirmation: false })} continue_callback={this.send.bind(this)} language={this.props.language} />
         }
         if (this.state.show_result) {
             console.log(this.state)
@@ -159,10 +159,10 @@ export class TransferAssetClassPopup extends React.Component<Props, State>{
             <Modal.Header closeButton>
                 <Modal.Title>Transfer Asset</Modal.Title>
                 <dl className="dl-horizontal">
-                    <dt>Name :</dt> <dd>{this.props.asset.name}</dd>
-                    <dt>Description :</dt> <dd>{this.props.asset.description}</dd>
-                    <dt>Owner :</dt> <dd>{this.props.asset.owner!.username}</dd>
-                    <dt>ID :</dt> <dd>{this.props.asset.txid}</dd>
+                    <dt>Name :</dt> <dd>{this.props.class.class_name}</dd>
+                    <dt>Description :</dt> <dd>{this.props.class.class_description}</dd>
+                    <dt>Owner :</dt> <dd>{this.props.class.owner!.username}</dd>
+                    <dt>ID :</dt> <dd>{this.props.class.txid}</dd>
                 </dl>
 
             </Modal.Header>
@@ -202,10 +202,6 @@ export class TransferAssetClassPopup extends React.Component<Props, State>{
                 : null
             }
 
-            {this.state.show_confirmation ?
-                <TransferAssetClassPopupConfirmation command={this.state.command} asset={this.props.asset} cancel_callback={this.cancel_confirmation.bind(this)} continue_callback={this.send.bind(this)} language={this.props.language} />
-                : null
-            }
 
         </Modal>
         )

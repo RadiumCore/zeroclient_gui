@@ -13,6 +13,8 @@ import * as settings from "../../Global/settings"
 import { SmartTxSendResultComponent } from '../../Global/SmartTxSendResultComponent'
 import { CreateGroupedAssetPopup } from "../AssetClasses/CreateGroupedAssetPopup"
 import * as api from '../../Global/API'
+import { TransferAssetClassPopup } from './TransferAssetClassPopup';
+import { DestroyAssetClassPopup } from './DestroyAssetClassPopup';
 
 interface Props {
     assettxid: string
@@ -28,8 +30,8 @@ interface State {
     info_body: string
     show_info: boolean
 
-    show_transfer_asset: boolean
-    show_destroy_asset: boolean
+    show_transfer_asset_class: boolean
+    show_destroy_asset_class: boolean
     show_create_asset: boolean
 
     load_complete: boolean
@@ -47,8 +49,8 @@ export class AssetClassInfoPopup extends React.Component<Props, State>{
             info_body: "",
             show_info: false,
             //
-            show_destroy_asset: false,
-            show_transfer_asset: false,
+            show_destroy_asset_class: false,
+            show_transfer_asset_class: false,
             show_create_asset: false,
             class: blank_AssetClass,
             load_complete: false,
@@ -63,18 +65,18 @@ export class AssetClassInfoPopup extends React.Component<Props, State>{
         this.setState({ show_create_asset: false })
     }
 
-    open_transfer_asset() {
-        this.setState({ show_transfer_asset: true })
+    open_transfer_asset_class() {
+        this.setState({ show_transfer_asset_class: true })
     }
-    close_transfer_asset() {
-        this.setState({ show_transfer_asset: false })
+    close_transfer_asset_class() {
+        this.setState({ show_transfer_asset_class: false })
     }
 
-    open_destroy_asset() {
-        this.setState({ show_destroy_asset: true })
+    open_destroy_asset_class() {
+        this.setState({ show_destroy_asset_class: true })
     }
-    close_destroy_asset() {
-        this.setState({ show_destroy_asset: false })
+    close_destroy_asset_class() {
+        this.setState({ show_destroy_asset_class: false })
     }
 
     close() {
@@ -111,7 +113,15 @@ export class AssetClassInfoPopup extends React.Component<Props, State>{
 
     select_content() {
         if (this.state.show_create_asset) {
-            return <CreateGroupedAssetPopup class={this.state.class} close_callback={this.close_create_asset.bind(this)} language={this.props.language} />
+            return <CreateGroupedAssetPopup class={this.state.class} close_callback={this.close_create_asset.bind(this)}  language={this.props.language} />
+        }
+
+        if (this.state.show_transfer_asset_class) {
+            return <TransferAssetClassPopup class={this.state.class} close_callback={this.close_create_asset.bind(this)} sucess_callback={this.close.bind(this)} language={this.props.language} />
+        }
+
+        if (this.state.show_destroy_asset_class) {
+            return <DestroyAssetClassPopup class={this.state.class} close_callback={this.close_create_asset.bind(this)} sucess_callback={this.close.bind(this)} language={this.props.language} />
         }
 
         if (this.state.show_info) {
@@ -148,9 +158,9 @@ export class AssetClassInfoPopup extends React.Component<Props, State>{
                 </dl >
 
                 <div className="btn-toolbar" role="group" aria-label="...">
-                    {this.can_destroy() ? <button type="button" className="btn btn-default btn-danger" onClick={this.open_destroy_asset.bind(this)} >Destroy Asset Group</button> : null}
+                    {this.can_destroy() ? <button type="button" className="btn btn-default btn-danger" onClick={this.open_destroy_asset_class.bind(this)} >Destroy Asset Group</button> : null}
 
-                    {this.can_transfer() ? <button type="button" className="btn btn-default btn-success" onClick={this.open_transfer_asset.bind(this)} >Transfer Asset Group</button> : null}
+                    {this.can_transfer() ? <button type="button" className="btn btn-default btn-success" onClick={this.open_transfer_asset_class.bind(this)} >Transfer Asset Group</button> : null}
                     {settings.current_identity.address == "" ? "Please loging to view asset destroy/transfer options" : null}
                 </div>
 

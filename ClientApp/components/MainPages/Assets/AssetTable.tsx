@@ -65,7 +65,12 @@ export class AssetTable extends React.Component<Props, State> {
         }
     }
     tick() {
-        api.SCTop((data: any) => { this.setState({ sctop: data }); })
+        api.SCTop((data: any) => {
+            if (data != this.state.sctop) {
+                this.setState({ sctop: data });
+                this.load_data()
+            }
+        })
     }
 
     componentDidMount() {
