@@ -2,58 +2,36 @@ import { AssetClass } from '../MainPages/_Interfaces/Assets';
 import * as statics from './statics'
 import { Block } from '../MainPages/_Interfaces/iBLock'
 
-var public_base_1: string = "https://smartchai.radiumcore.org/api/public/"
-var private_base_1: string = "https://smartchai.radiumcore.org/api/auth/"
-
-var public_base_2: string = "https://smartchain2.radiumcore.org/api/public/"
-var private_base_2: string = "https://smartchain2.radiumcore.org/api/auth/"
-
-var public_base_3: string = "https://smartchain.radiumcore.org/api/public/"
-var private_base_3: string = "https://smartchain.radiumcore.org/api/auth/"
-
 var pub_base: string = "";
 var priv_base: string = "";
 
 
 export function SetApi(callback: any) {
-    fetch(public_base_1 + "gettopblock")
-        .then(response => response.json() as Promise<Block>)
+
+    fetch("api_servers")
+        .then(response => response.json() as Promise<string[]>)
         .then((json) => {
-            if (json.height > 500000)
-                if (pub_base == "") {
-                    pub_base = public_base_1
-                    priv_base = private_base_1
-                    callback(true);
-                }
-                    
+            json.forEach(
+                function iterator(item) {
+                    check_fetch_api(item, callback);
+                },
+            )
         });
-
-    fetch(public_base_2 + "gettopblock")
-        .then(response => response.json() as Promise<Block>)
-        .then((json) => {
-            if (json.height > 500000)
-                if (pub_base == "") {
-                    pub_base = public_base_2
-                    priv_base = private_base_2
-                    callback(true);
-                }
-
-        });
-
-    fetch(public_base_3 + "gettopblock")
-        .then(response => response.json() as Promise<Block>)
-        .then((json) => {
-            if (json.height > 500000)
-                if (pub_base == "") {
-                    pub_base = public_base_3
-                    priv_base = private_base_3
-                    callback(true);
-                }
-
-        });
-
 }
 
+function check_fetch_api(endpoint: string, callback: any) {
+    fetch(endpoint + "/api/public/gettopblock")
+        .then(response => response.json() as Promise<Block>)
+        .then((json) => {
+            if (json.height > 500000)
+                if (pub_base == "") {
+                    pub_base = endpoint + "/api/public/"
+                        priv_base = endpoint + "/api/auth/"
+                    callback(true);
+                }
+
+        });
+}
 
 export function EncodeEditUser(_body: any, callback: any) {
     post_json('EncodeEditUser', _body, callback)
