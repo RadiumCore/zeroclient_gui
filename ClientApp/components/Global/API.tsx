@@ -2,7 +2,7 @@ import { AssetClass } from '../MainPages/_Interfaces/Assets';
 import * as statics from './statics'
 import { Block } from '../MainPages/_Interfaces/iBLock'
 
-var pub_base: string = "";
+export var pub_base: string = "";
 var priv_base: string = "";
 
 
