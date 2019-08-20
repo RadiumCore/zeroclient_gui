@@ -66,12 +66,29 @@ export class Network extends React.Component<RouteComponentProps<{}> | undefined
 
     renderServerColum() {
         return <span>
-            <h3>{t[this.state.language].Wallet}</h3>
+            <h3>Server Info</h3>
             <dl className="dl-horizontal ">
                 <dt className="left">Server Version:</dt><dd>{this.state.server.server_version}</dd>
-                <dt className="left">Wallet Version :</dt><dd>{this.state.server.wallet_version}</dd>
+                <dt className="left">Server Address :</dt><dd>{api.pub_base}</dd>
                 <dt className="left">Administrator :</dt><dd>{this.state.server.administrator}</dd>
                 <dt className="left">Contact :</dt><dd>{this.state.server.admin_contact}</dd>
+                
+            </dl>
+            <h3>Network Info</h3>
+            <dl className="dl-horizontal ">
+                <dt className="left">Wallet Version :</dt><dd>{this.state.server.wallet_version}</dd>
+                <dt className="left">Network Blocks:</dt><dd>{this.state.network.wallet_block}</dd>
+                <dt className="left">Network Stake Weight:</dt><dd>{this.state.network.net_weight}</dd>
+                <dt className="left">Total Supply: </dt><dd>{this.state.network.totoal_supply}</dd>    
+                <dt className="left">Stake Reward</dt><dd>{Math.round( (((.485 * 1440 * 365) /  this.state.network.net_weight) * 10000))/100}%</dd>    
+            </dl>
+            <h3>SmartChain Stats</h3>
+            <dl className="dl-horizontal ">
+               <dt className="left">SmartChain Blocks:</dt><dd>{this.state.network.smartchain_block}</dd>
+                <dt className="left">SmartChain Users :</dt><dd>{this.state.network.user_count}</dd>
+                <dt className="left">Smart Transaction Count :</dt><dd>{this.state.network.smart_tx_count}</dd>
+                <dt className="left">SmartChain Hash :</dt><dd >{this.state.network.best_hash}</dd>
+
             </dl>
 
         </span>
@@ -79,18 +96,7 @@ export class Network extends React.Component<RouteComponentProps<{}> | undefined
 
     renderNetworkColum() {
         return <span>
-            <h3>Server Information</h3>
-            <dl className="dl-horizontal ">
-
-                <dt className="left">Network Blocks:</dt><dd>{this.state.network.wallet_block}</dd>
-                <dt className="left">SmartChain Blocks:</dt><dd>{this.state.network.smartchain_block}</dd>
-                <dt className="left">SmartChain Users :</dt><dd>{this.state.network.user_count}</dd>
-                <dt className="left">Smart Transaction Count :</dt><dd>{this.state.network.smart_tx_count}</dd>
-                <dt className="left">SmartChain Hash :</dt><dd >{this.state.network.best_hash}</dd>
-                <dt className="left">Network Stake Weight:</dt><dd>{this.state.network.net_weight}</dd>
-
-                <dt className="left">Total Supply: </dt><dd>{this.state.network.totoal_supply}</dd>
-            </dl>
+            
         </span>
     }
 }
