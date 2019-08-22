@@ -3,6 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import t from '../../Language/Language'
 import { User } from '../_Interfaces/iUser'
 import { Modal } from 'react-bootstrap'
+import { LoadingModal } from '../../Global/LoadingModal'
 import * as settings from '../../Global/settings'
 import * as statics from '../../Global/statics'
 import * as api from '../../Global/API'
@@ -17,7 +18,7 @@ interface Props {
 interface SignFileConfirmationComponentState {
     title: string;
     encoding_result: result,
-    loading: boolean;
+    loading: number;
     username: string;
 }
 
@@ -27,7 +28,7 @@ export class SignFileConfirmationComponent extends React.Component<Props, SignFi
         this.state = {
             title: "",
             encoding_result: { hex: "", cost: 0 },
-            loading: true,
+            loading: 0,
             username: ""
         };
         const body = JSON.stringify({
@@ -35,8 +36,8 @@ export class SignFileConfirmationComponent extends React.Component<Props, SignFi
             hash: this.props.hash,
         })
 
-        api.EncodeFileHash(body, (data: any) => { this.setState({ encoding_result: data }); })
-        api.GetUser(settings.current_identity.address, (data: User) => { this.setState({ username: data.username, loading: false }); })
+        api.EncodeFileHash(body, (data: any) => { this.setState({ encoding_result: data, loading: this.state.loading +1 }); })
+        api.GetUser(settings.current_identity.address, (data: User) => { this.setState({ username: data.username, loading: this.state.loading + 1 }); })
     }
 
     continue() {
@@ -47,6 +48,9 @@ export class SignFileConfirmationComponent extends React.Component<Props, SignFi
     }
 
     render() {
+        if (this.state.loading < 2)
+            return (<LoadingModal close_callback={this.back.bind(this)} />)
+
         return (<Modal show={true} onHide={() => { }}>
             <Modal.Header closeButton>
                 <Modal.Title> <h4> Please ensure the following information is correct</h4></Modal.Title>
