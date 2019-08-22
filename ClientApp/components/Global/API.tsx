@@ -123,7 +123,7 @@ export function FilterAssetClass(_body: any, callback: any) {
 }
 
 export function SCTop(callback: any) {
-    get_text("getsctop", callback);
+    get_text("sctop", callback);
 }
 
 export function gettopblock(callback: any) {
