@@ -44,10 +44,14 @@ export class Loading extends React.Component<LoadingProps, LoadingState> {
     }
 
     tick() {
-        api.GetSetupInfo((value: any) => { this.setState({ data: value }); })
-        this.props.callback(true);
+        api.GetSetupInfo((value: setup_data) => {
+            
+            this.setState({ data: value });
+        })
+        
         if (this.state.data.action == "complete") {
             this.props.callback(true);
+            clearInterval(this.state.intervaltick);
         }
     }
 
