@@ -1,7 +1,14 @@
 
-Radium development tree
+Smartchain GUI
 
-Radium is a PoS-based cryptocurrency.
+Depends
+===========================
+Smartchain UI requires the following to run
+* NPM
+* Python 2.7
+* dotnet 2.2 SKD, available for windows here: https://dotnet.microsoft.com/download/thank-you/dotnet-sdk-2.2.401-windows-x64-installer 
+* windows-build-tools `npm install --global --production windows-build-tools`
+
 
 Development process
 ===========================
