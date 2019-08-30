@@ -236,3 +236,9 @@ _Pvt_Extensions
 .fake/
 
 .vscode/
+
+config.conf
+
+wwwroot/dist/main.js.map
+
+wwwroot/dist/main.js
