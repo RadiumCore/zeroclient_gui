@@ -77,7 +77,7 @@ namespace SmartChain.Web
         public static IWebHost BuildWebHost(string[] args, IConfiguration config) =>
           WebHost.CreateDefaultBuilder(args)
             // swithc to easy turn off kestral to enable chrome debugging
-#if true
+#if false
             .UseKestrel(
                 options =>
                 {
