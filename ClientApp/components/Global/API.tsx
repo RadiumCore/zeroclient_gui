@@ -33,6 +33,16 @@ function check_fetch_api(endpoint: string, callback: any) {
         });
 }
 
+export function PostNewMultisig(_body: any, callback: any) {
+    post_json('PostNewMultisig', _body, callback)
+}
+export function PostCreateRawTransaction(_body: any, callback: any) {
+    post_json('PostCreateRawTransaction', _body, callback)
+}
+export function GetInputValue(_body: any, callback: any) {
+    post_json('GetInputValue', _body, callback)
+}
+
 export function EncodeEditUser(_body: any, callback: any) {
     post_json('EncodeEditUser', _body, callback)
 }
