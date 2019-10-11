@@ -6,7 +6,9 @@ import { TrueFalseIcon } from "../../Global/TrueFalseIcon"
 import * as api from '../../Global/API'
 import { Asset, asset_command, AssetClass } from '../_Interfaces/Assets'
 import { Modal } from 'react-bootstrap'
+import { InfoPopup } from '../../Global/InfoPopup'
 
+import { result, blank_result } from '../_Interfaces/iResult'
 interface Props {
     class: AssetClass
     command: asset_command
@@ -22,10 +24,7 @@ export class TransferAssetClassPopupConfirmation extends React.Component<Props, 
     constructor(props: Props) {
         super(props);
         this.state = {
-            encoding_result: {
-                hex: "",
-                cost: 0,
-            }
+            encoding_result: blank_result
         };
 
         const body = JSON.stringify({
@@ -42,7 +41,14 @@ export class TransferAssetClassPopupConfirmation extends React.Component<Props, 
         return false
     }
 
+    close_info() {
+        this.props.cancel_callback()
+    }
+
     render() {
+        if (!this.state.encoding_result.sucess) {
+            return <InfoPopup title={'Error'} info={this.state.encoding_result.message} close_callback={this.props.cancel_callback} show_popup={true} language={this.props.language} />
+        }
         return (<Modal show={true} onHide={() => { }}>
             <Modal.Header closeButton>
                 <Modal.Title>Please ensure the following information is correct</Modal.Title>
@@ -78,9 +84,4 @@ export class TransferAssetClassPopupConfirmation extends React.Component<Props, 
 
         );
     }
-}
-
-interface result {
-    hex: string
-    cost: number
 }

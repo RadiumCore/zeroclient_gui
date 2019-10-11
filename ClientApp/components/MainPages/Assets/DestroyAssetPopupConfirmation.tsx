@@ -6,7 +6,8 @@ import { TrueFalseIcon } from "../../Global/TrueFalseIcon"
 import * as api from '../../Global/API'
 import { Asset, asset_command } from '../_Interfaces/Assets'
 import { Modal } from 'react-bootstrap'
-
+import { result, blank_result } from '../_Interfaces/iResult'
+import { InfoPopup } from '../../Global/InfoPopup'
 interface Props {
     asset: Asset
     command: asset_command
@@ -22,10 +23,7 @@ export class DestroyAssetPopupConfirmation extends React.Component<Props, State>
     constructor(props: Props) {
         super(props);
         this.state = {
-            encoding_result: {
-                hex: "",
-                cost: 0,
-            }
+            encoding_result: blank_result,
         };
 
         const body = JSON.stringify({
@@ -44,6 +42,9 @@ export class DestroyAssetPopupConfirmation extends React.Component<Props, State>
     }
 
     render() {
+        if (!this.state.encoding_result.sucess) {
+            return <InfoPopup title={'Error'} info={this.state.encoding_result.message} close_callback={this.props.cancel_callback} show_popup={true} language={this.props.language} />
+        }
         return (<Modal show={true} onHide={() => { }}>
             <Modal.Header closeButton>
                 <Modal.Title>Please Ensure you want to destroy the following asset!</Modal.Title>
@@ -82,7 +83,3 @@ export class DestroyAssetPopupConfirmation extends React.Component<Props, State>
     }
 }
 
-interface result {
-    hex: string
-    cost: number
-}

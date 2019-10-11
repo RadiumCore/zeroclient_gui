@@ -7,6 +7,8 @@ import { LoadingModal } from '../../Global/LoadingModal'
 import * as settings from '../../Global/settings'
 import * as statics from '../../Global/statics'
 import * as api from '../../Global/API'
+import { InfoPopup } from '../../Global/InfoPopup'
+import { result, blank_result } from '../_Interfaces/iResult'
 interface Props {
     complete_callback: any;
     cancel_callback: any;
@@ -27,7 +29,7 @@ export class SignFileConfirmationComponent extends React.Component<Props, SignFi
         super(props);
         this.state = {
             title: "",
-            encoding_result: { hex: "", cost: 0 },
+            encoding_result: blank_result,
             loading: 0,
             username: ""
         };
@@ -50,7 +52,9 @@ export class SignFileConfirmationComponent extends React.Component<Props, SignFi
     render() {
         if (this.state.loading < 2)
             return (<LoadingModal close_callback={this.back.bind(this)} />)
-
+        if (!this.state.encoding_result.sucess) {
+            return <InfoPopup title={'Error'} info={this.state.encoding_result.message} close_callback={this.props.cancel_callback} show_popup={true} language={this.props.language} />
+        }
         return (<Modal show={true} onHide={() => { }}>
             <Modal.Header closeButton>
                 <Modal.Title> <h4> Please ensure the following information is correct</h4></Modal.Title>
@@ -77,9 +81,4 @@ export class SignFileConfirmationComponent extends React.Component<Props, SignFi
 
         );
     }
-}
-
-interface result {
-    hex: string
-    cost: number
 }

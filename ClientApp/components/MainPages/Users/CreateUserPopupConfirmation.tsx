@@ -5,6 +5,7 @@ import { TrueFalseIcon } from '../../Global/TrueFalseIcon'
 import { User } from '../_Interfaces/iUser'
 import { Modal } from 'react-bootstrap'
 import { InfoPopup } from '../../Global/InfoPopup'
+import { result, blank_result } from '../_Interfaces/iResult'
 import * as api from '../../Global/API'
 import * as statics from '../../Global/statics'
 interface Props {
@@ -21,12 +22,7 @@ export class CreateUserPopupConfirmation extends React.Component<Props, CreateUs
     constructor(props: Props) {
         super(props);
         this.state = {
-            encoding_result: {
-                sucess: false,
-                message: "",
-                hex: "",
-                cost: 0,
-            }
+            encoding_result: blank_result
         };
         const body = JSON.stringify({
             user: this.props.user,
@@ -80,11 +76,4 @@ export class CreateUserPopupConfirmation extends React.Component<Props, CreateUs
 
         );
     }
-}
-
-interface result {
-    sucess: boolean
-    message: string
-    hex: string
-    cost: number
 }

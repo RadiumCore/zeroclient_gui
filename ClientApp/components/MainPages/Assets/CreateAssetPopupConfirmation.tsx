@@ -8,6 +8,7 @@ import { Asset } from '../_Interfaces/Assets'
 import { Modal } from 'react-bootstrap'
 import { InfoPopup } from '../../Global/InfoPopup'
 
+import { result, blank_result } from '../_Interfaces/iResult'
 interface Props {
     asset: Asset
 
@@ -24,12 +25,8 @@ export class CreateAssetPopupConfirmation extends React.Component<Props, State>{
     constructor(props: Props) {
         super(props);
         this.state = {
-            encoding_result: {
-                hex: "",
-                cost: 0,
-                sucess: false,
-                message: "",
-            },
+
+            encoding_result: blank_result,
             loading: true,
         };
         const body = JSON.stringify({
@@ -52,7 +49,7 @@ export class CreateAssetPopupConfirmation extends React.Component<Props, State>{
 
     render() {
         if (!this.state.encoding_result.sucess) {
-            return <InfoPopup close_callback={this.close_info.bind(this)} title={"ERROR"} info={this.state.encoding_result.message} show_popup={true} language={this.props.language} />
+            return <InfoPopup title={'Error'} info={this.state.encoding_result.message} close_callback={this.props.cancel_callback} show_popup={true} language={this.props.language} />
         }
         return (<Modal show={true} onHide={() => { }}>
             <Modal.Header closeButton>
@@ -91,11 +88,4 @@ export class CreateAssetPopupConfirmation extends React.Component<Props, State>{
 
         );
     }
-}
-
-interface result {
-    hex: string
-    cost: number
-    sucess: boolean
-    message: string
 }
