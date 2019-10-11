@@ -46,7 +46,7 @@ export class GetInputPopup extends React.Component<Props, GetInputPopupState>{
             </Modal.Header>
             <Modal.Body>
                 {this.props.info}
-                <div> <input type="text" onKeyPress={evt => this.key_up(evt)} onChange={evt => this.setState({ data: evt.target.value })} /></div>
+                <div> <input type="text" className="form-control" onKeyPress={evt => this.key_up(evt)} onChange={evt => this.setState({ data: evt.target.value })} /></div>
 
             </Modal.Body>
             <Modal.Footer>
