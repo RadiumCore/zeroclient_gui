@@ -10,8 +10,9 @@ namespace SmartChain.Web.Controllers
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
+        
         public static ConfigFileReader config = new ConfigFileReader();
-        private static string endpoint = config.lookup("api_backup");        
+        private static string endpoint = config.lookup("api_backup");
         public IActionResult Index()
         {
             return View();

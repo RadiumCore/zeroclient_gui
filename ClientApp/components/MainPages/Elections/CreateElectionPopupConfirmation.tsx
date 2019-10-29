@@ -3,7 +3,8 @@ import { RouteComponentProps } from 'react-router';
 import t from '../../Language/Language'
 import { TrueFalseIcon } from '../../Global/TrueFalseIcon'
 import * as statics from '../../Global/statics'
-
+import { result, blank_result } from '../_Interfaces/iResult'
+import { InfoPopup } from '../../Global/InfoPopup'
 import * as api from '../../Global/API'
 import { Election_lite, candidate_lite } from '../_Interfaces/Elections'
 import { Modal } from 'react-bootstrap'
@@ -22,10 +23,7 @@ export class CreateElectionPopupConfirmation extends React.Component<Props, Crea
     constructor(props: Props) {
         super(props);
         this.state = {
-            encoding_result: {
-                hex: "",
-                cost: 0,
-            }
+            encoding_result: blank_result
         };
         const body = JSON.stringify({
             election: this.props.election,
@@ -43,6 +41,11 @@ export class CreateElectionPopupConfirmation extends React.Component<Props, Crea
     }
 
     render() {
+
+        if (!this.state.encoding_result.sucess) {
+            return <InfoPopup title={'Error'} info={this.state.encoding_result.message} close_callback={this.props.cancel_callback} show_popup={true} language={this.props.language} />
+        }
+
         return (<Modal show={true} onHide={() => { }}>
             <Modal.Header closeButton>
                 <Modal.Title>Please ensure the following information is correct</Modal.Title>
@@ -83,7 +86,3 @@ export class CreateElectionPopupConfirmation extends React.Component<Props, Crea
     }
 }
 
-interface result {
-    hex: string
-    cost: number
-}

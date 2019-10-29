@@ -10,6 +10,7 @@ import { Network } from './components/MainPages/NetworkStats/NetworkStats';
 import { Login } from './components/MainPages/Login/Login'
 import { MyProfile } from './components/MainPages/MyProfile/MyProfile'
 import { Messages } from './components/MainPages/SignedMessages/SignedMesages'
+import { Tools } from './components/MainPages/Tools/Tools'
 
 export const routes = <Layout>
     <Route exact path='/' component={Users} />
@@ -23,5 +24,6 @@ export const routes = <Layout>
     <Route path='/myprofile' component={MyProfile} />
     <Route path='/logout' component={Users} />
     <Route path='/messages' component={Messages} />
+    <Route path='/tools' component={Tools} />
 
 </Layout>;

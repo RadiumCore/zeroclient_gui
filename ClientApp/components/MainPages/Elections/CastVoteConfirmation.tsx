@@ -9,6 +9,7 @@ import { Election, candidate } from '../_Interfaces/Elections'
 import { Modal } from 'react-bootstrap'
 import { InfoPopup } from '../../Global/InfoPopup'
 
+import { result, blank_result } from '../_Interfaces/iResult'
 interface Props {
     election: Election
     candidate_index: number;
@@ -38,12 +39,7 @@ export class CastVoteConfirmation extends React.Component<Props, State>{
     constructor(props: Props) {
         super(props);
         this.state = {
-            encoding_result: {
-                hex: "",
-                cost: 0,
-                sucess: false,
-                message: "",
-            },
+            encoding_result: blank_result,
 
             info_title: "",
             info_body: "",
@@ -87,8 +83,7 @@ export class CastVoteConfirmation extends React.Component<Props, State>{
 
     render() {
         if (!this.state.encoding_result.sucess) {
-            this.setState({ info_title: "Error", info_body: this.state.encoding_result.message })
-            return (<InfoPopup show_popup={true} close_callback={this.cancel_close.bind(this)} title={this.state.info_title} info={this.state.info_body} language={this.props.language} />)
+            return <InfoPopup title={'Error'} info={this.state.encoding_result.message} close_callback={this.props.cancel_callback} show_popup={true} language={this.props.language} />
         }
 
         return (<Modal show={true} onHide={() => { }}>
@@ -121,11 +116,4 @@ export class CastVoteConfirmation extends React.Component<Props, State>{
 
         );
     }
-}
-
-interface result {
-    hex: string
-    cost: number
-    sucess: boolean
-    message: string
 }
