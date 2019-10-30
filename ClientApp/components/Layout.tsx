@@ -21,13 +21,11 @@ interface LayoutState {
 export class Layout extends React.Component<LayoutProps, LayoutState> {
     constructor(props: LayoutProps) {
         super(props);
-        this.state = { loadcomplete: false, sync_complete: false, intervaltick: 30000, api_set: false }
+        this.state = { loadcomplete: false, sync_complete: false, intervaltick: 30000, api_set: true }
         window.addEventListener("beforeunload", (ev) => {
             ev.preventDefault();
         });
-        api.SetApi(() => {
-            this.setState({ api_set: true })
-        });        
+               
 
         this.tick()
     }

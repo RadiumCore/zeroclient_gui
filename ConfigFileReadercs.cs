@@ -52,6 +52,13 @@ namespace SmartChain.Web
             return options[key].ToString();
         }
 
+        public JArray lookupArray(string key)
+        {
+            if (!options.ContainsKey(key))
+                throw new Exception("The key '" + key + "' was not set in the config: " + Directory.GetCurrentDirectory().ToString());
+            return (JArray) options[key];
+        }
+
         public string lookup_or_default(string key)
         {
             if (!options.ContainsKey(key))
