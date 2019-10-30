@@ -6,12 +6,17 @@ import { iTransaction } from '../_Interfaces/iTransaction'
 import * as settings from '../../Global/settings'
 
 import * as api from '../../Global/API'
+import { address } from 'radiumjs-lib';
 interface state {
     server: server_info;
     network: network_info;
     intervaltick: any;
     language: number;
     loading: boolean;
+    address_input: string;
+    stakes: stake[];
+    stake_report: stake_report;
+    rads_price: number;
 }
 
 export class Network extends React.Component<RouteComponentProps<{}> | undefined, state> {
@@ -23,6 +28,10 @@ export class Network extends React.Component<RouteComponentProps<{}> | undefined
             network: blank_network_info,
             language: 0,
             loading: true,
+            address_input: "",
+            stakes: [],
+            stake_report: { stakes: 0, rads: 0 },
+            rads_price: 0,
         };
         api.GetServerInfo((data: any) => { this.setState({ server: data }); })
 
@@ -31,6 +40,42 @@ export class Network extends React.Component<RouteComponentProps<{}> | undefined
 
     tick() {
         api.GetNetworkInfo((data: any) => { this.setState({ network: data, loading: false }); })
+    }
+
+     generate_stake_report() {
+
+         if (this.state.stakes.length != 0) {
+             this.setState({ stakes: [], stake_report: { stakes: 0, rads: 0} });
+             return;
+         }
+         api.GetPrice((data: any) => {
+             this.setState({ rads_price: data["usdprice"] });
+         })
+
+        var addresses: string[] = this.state.address_input.split(" ");
+
+        addresses.forEach((address: string) => {
+
+            api.GetStakes(address, 1440, (data: stake[]) => {
+                var temp: stake[] = this.state.stakes;
+                data.forEach((v: stake) => {
+                    temp.push(v);
+                })
+
+                this.setState({ stakes: temp })
+                this.calculate_stake_report();
+                
+            })
+        })   
+    }
+
+    calculate_stake_report() {
+        var report: stake_report = {stakes: 0, rads: 0 };
+        this.state.stakes.forEach((s: stake) => {
+            report.stakes += 1;
+            report.rads += s.value;
+        })
+        this.setState({ stake_report: report})
     }
 
     componentDidMount() {
@@ -46,6 +91,7 @@ export class Network extends React.Component<RouteComponentProps<{}> | undefined
     public render() {
         let walletColum = this.state.loading ? <p><em>{t[this.state.language].Loading}...</em></p> : this.renderServerColum();
         let networkColum = this.state.loading ? <p><em>{t[this.state.language].Loading}...</em></p> : this.renderNetworkColum();
+        let stake_report = this.state.loading ? <p><em>{t[this.state.language].Loading}...</em></p> : this.renderStakeReport();
 
         return <span>
             <div className="main-page-head">
@@ -54,7 +100,14 @@ export class Network extends React.Component<RouteComponentProps<{}> | undefined
             <div className="main-page-body">
                 <div className="row">
                     <div className="col-sm-6">{walletColum}{networkColum}</div>
-                    <div className="col-sm-6"></div>
+                    <div className="col-sm-6">
+                        <h3> Calculate a 24 hour staking report </h3>
+                        <h5> Enter a single address or addresses seperated by a space </h5>
+                        <textarea rows={10} className="form-control rounded-0" onChange={evt => this.setState({ address_input: evt.target.value })} />
+                        <button type="button" className="btn btn-default" onClick={this.generate_stake_report.bind(this)}>{this.state.stakes.length == 0 ? "Generate Report" : "clear" }</button>
+                        {stake_report}
+                    </div>
+                    
                 </div>
 
             </div>
@@ -99,6 +152,17 @@ export class Network extends React.Component<RouteComponentProps<{}> | undefined
             
         </span>
     }
+    renderStakeReport() {
+
+
+        return <span>
+            <dl className="dl-horizontal ">
+            <dt className="left">Stakes:</dt><dd>{this.state.stake_report.stakes}</dd>
+            <dt className="left">Total Rads</dt><dd>{this.state.stake_report.rads}</dd>
+            <dt className="left">USD Value</dt><dd>{this.state.stake_report.rads * this.state.rads_price}</dd>
+</dl>
+        </span>
+    }
 }
 
 interface server_info {
@@ -132,4 +196,16 @@ var blank_network_info = {
     wallet_block: 0,
     smartchain_block: 0,
     best_hash: "",
+}
+
+interface stake {
+    txid: string;
+    value: number;
+    address: string;
+    block: number;
+}
+
+interface stake_report {
+    stakes: number;
+    rads: number;
 }

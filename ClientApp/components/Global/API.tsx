@@ -5,6 +5,7 @@ import { Block } from '../MainPages/_Interfaces/iBLock'
 export var pub_base: string = "/api/public/";
 var priv_base: string = "/api/auth/";
 var utxo_base: string = "/api/utxo/"
+var stake_base: string = "/api/stake/"
 
 //export function SetApi(callback: any) {
 
@@ -39,8 +40,12 @@ export function GetBestAPI(callback: any) {
     pub_get_json('SetAPI', callback)
 }
 
+export function GetPrice(callback: any) {
+    pub_get_json("webstats", callback)
+}
 
-        });
+export function GetStakes(address: string, blocks: number, callback: any) {
+    stake_get_json(address + "/" + blocks, callback)
 }
 
 export function PostNewMultisig(_body: any, callback: any) {
@@ -227,6 +232,15 @@ function pub_get_json(endpoint: string, callback: any) {
 function pub_get_text(endpoint: string, callback: any) {
     fetch(pub_base + endpoint)
         .then((response) => { return response.text() })
+        .then((json) => {
+            callback(json);
+        });
+}
+
+
+function stake_get_json(endpoint: string, callback: any) {
+    fetch(stake_base + endpoint)
+        .then((response) => { return response.json() })
         .then((json) => {
             callback(json);
         });
