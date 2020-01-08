@@ -40,9 +40,6 @@ export function GetBestAPI(callback: any) {
 }
 
 
-        });
-}
-
 export function PostNewMultisig(_body: any, callback: any) {
     pub_post_json('PostNewMultisig', _body, callback)
 }
