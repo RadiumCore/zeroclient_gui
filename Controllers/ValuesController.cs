@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -10,8 +9,7 @@ namespace SmartChain.Web.Controllers
     public class ValuesController : Controller 
     {
 
-        public static ConfigFileReader config = new ConfigFileReader();
-        private static string endpoint = config.lookup("api_backup");
+       
 
 
         bool dev = false;
@@ -29,14 +27,14 @@ namespace SmartChain.Web.Controllers
 
         
 
-        #region "setup"
+        
 
         [HttpGet("{*url}", Order = int.MaxValue)]
         public IActionResult CatchAllGet()
         {
             if (Request.Method == "GET")
             {
-                var request = (HttpWebRequest)WebRequest.Create(endpoint + Request.Path);
+                var request = (HttpWebRequest)WebRequest.Create(Endpoints.api_endpoint + Request.Path);
                 var response = (HttpWebResponse)request.GetResponse();
                 var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
                 return Content(responseString);
@@ -47,8 +45,6 @@ namespace SmartChain.Web.Controllers
         }
 
        
-
-        #endregion "setup"
 
 
 
