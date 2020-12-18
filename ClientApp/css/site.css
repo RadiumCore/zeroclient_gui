@@ -1,15 +1,15 @@
 /* Keep the nav menu independent of scrolling and on top of other items */
 .btn {
-    border-color: #d9d9d9;
-    background-color: blueviolet;
-    color: #d9d9d9;
+    border-color: black;
+    background-color: #20d679;
+    color: black;
     margin: 5px;
 }
 
 .btn-default:hover {
     background-color: #d9d9d9;
     border-color: #d9d9d9;
-    color: blueviolet;
+    color: #20d679;
 }
 
 .btn-success:hover {
@@ -31,7 +31,7 @@
 }
 
 .btn-info {
-    background-color: blueviolet;
+    background-color: #20d679;
     color: #fff;
 }
 
@@ -51,14 +51,14 @@
 }
 
 .input-group-addon {
-    background-color: blueviolet;
-    border-color: #d9d9d9;
+    background-color: #20d679;
+    border-color: black;
     border-radius: 5px;
     color: #fff;
 }
 
 .custom_input {
-    background-color: blueviolet;
+    background-color: #20d679;
     color: #fff;
     border-color: #d9d9d9;
     border: 1px;
@@ -83,7 +83,7 @@
 
 .form-control {
     background-color: #d9d9d9;
-    border-color: #d9d9d9;
+    border-color: black;
 }
 
 .ReactTable {
@@ -137,12 +137,12 @@
 }
 
     .main-nav li a.active:focus {
-        background-color: #6f42c1;
+        background-color: #1cb667;
     }
 
 .main-page {
-    color: #d9d9d9;
-    background: rgba(39,40,51,.965);
+    color: black;
+    background: #d9d9d9;
 }
 
 .main-page-head {
@@ -377,7 +377,7 @@ input[type=address] {
 }
 
 .progress-bar-success {
-    background-color: blueviolet
+    background-color: #20d679
 }
 
 .contextMenu {
