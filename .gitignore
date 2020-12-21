@@ -243,3 +243,7 @@ config.conf
 wwwroot/dist/main.js.map
 
 wwwroot/dist/main.js
+
+ipfs.exe
+
+certificate.json
