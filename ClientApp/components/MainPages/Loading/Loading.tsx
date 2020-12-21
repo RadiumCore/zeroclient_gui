@@ -3,7 +3,7 @@ import { NavMenu } from '../../NavMenu';
 import t from "../../Language/Language";
 import { ProgressBar, Jumbotron } from 'react-bootstrap';
 import * as api from '../../Global/API'
-const image = require('../../../../Assets/radium-512-300x300.png');
+const image = require('../../../../Assets/ValLogo305x300.png');
 interface LoadingState {
     intervaltick: any;
     language: number;
@@ -82,7 +82,7 @@ export class Loading extends React.Component<LoadingProps, LoadingState> {
 
                     </div>
                     <div className="row text-center">
-                        <h1>Radium Zero Client</h1>
+                        <h1>Validity Web Client</h1>
 
                     </div>
                     <div className="row">

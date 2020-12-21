@@ -142,33 +142,46 @@ export class Messages extends React.Component<RouteComponentProps<{}> | undefine
             <div className="main-page-head">
             </div>
             <div className="main-page-body" >
+                <div className="col-sm-1" />
 
                 {settings.current_identity.address != "" ?
-                    <div className="col-sm-5">
+                    <span>
 
-                        <h2> Create signed message</h2>
-                        <textarea rows={10} className="form-control rounded-0" onChange={evt => this.setState({ sign_message_input: evt.target.value })} />
-                        <dl className="dl-horizontal">
-                            <dt>Using identity</dt><dd>{settings.current_identity.username}</dd>
-                            <dt>Using address</dt><dd>{settings.current_identity.address}</dd>
-                            <dt>Using blockhash</dt><dd>{settings.top_block.hash}</dd>
-                            <dt>Using date </dt><dd>{settings.top_block.hash}</dd>
-                        </dl>
+                        <div className="col-sm-4" >
+                            <h2> Create signed message</h2>
+                            <textarea rows={10} className="form-control rounded-0" onChange={evt => this.setState({ sign_message_input: evt.target.value })} />
+                            <dl className="dl-horizontal">
+                                <dt>Using identity</dt><dd>{settings.current_identity.username}</dd>
+                                <dt>Using address</dt><dd>{settings.current_identity.address}</dd>
+                                <dt>Using blockhash</dt><dd>{settings.top_block.hash}</dd>
+                                <dt>Using date </dt><dd>{settings.top_block.time}</dd>
+                            </dl>
 
-                        <button type="button" className="btn btn-default" onClick={this.Sign.bind(this)}>Create Signed Message</button>
+                            <button type="button" className="btn btn-default" onClick={this.Sign.bind(this)}>Create Signed Message</button>
 
-                    </div>
+                        </div>
+                        <div className="col-sm-2" / >
+                        <div className="col-sm-4" >
+                            <h2>Verify signed message</h2>
+                            <textarea rows={10} className="form-control rounded-0" onChange={evt => this.setState({ verify_message_input: evt.target.value })} />
+                            <button type="button" className="btn btn-default" onClick={this.Verify1.bind(this)}>Verify Message</button>
+                        </div>
+                    </span>                 
                     :
-                    null}
-                <div className="col-sm-2" />
+                    <span>
+                        <div className="col-sm-2" />
+                        <div className="col-sm-6" >
+                            <h2>Verify signed message</h2>
+                            <textarea rows={10} className="form-control rounded-0" onChange={evt => this.setState({ verify_message_input: evt.target.value })} />
+                            <button type="button" className="btn btn-default" onClick={this.Verify1.bind(this)}>Verify Message</button>
+                        </div>
+                        <div className="col-sm-2" />
+                    </span>
+                    
 
-                <div className="col-sm-5">
+                }
 
-                    <h2>Verify signed message</h2>
-                    <textarea rows={10} className="form-control rounded-0" onChange={evt => this.setState({ verify_message_input: evt.target.value })} />
-                    <button type="button" className="btn btn-default" onClick={this.Verify1.bind(this)}>Verify Message</button>
-
-                </div>
+                <div className="col-sm-1" />
 
             </div>
             <div className="main-page-foot" />

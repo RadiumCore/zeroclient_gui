@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { InfoPopup } from './Global/InfoPopup'
 import * as settings from './Global/settings'
-const image = require('../../Assets/ZCLogo_R3.png');
+const image = require('../../Assets/Validity-256.png');
 const icon48 = require('../../Assets/radium-48.png');
 interface NavMenuState {
     user: string;
@@ -81,7 +81,7 @@ export class NavMenu extends React.Component<Props, NavMenuState> {
 
                     {this.state.mobile ? null :
                         <NavLink to={'/'} className='link' >
-                            <img src={image} className="img-fluid inherit-height" />
+                            <img src={image} className="img-fluid inherit-height pad-15" />
                         </NavLink>
                     }
 
