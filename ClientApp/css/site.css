@@ -1,7 +1,12 @@
 /* Keep the nav menu independent of scrolling and on top of other items */
+
+html, body, #app, #app > div {
+    height: 100%
+}
+
 .btn {
     border-color: black;
-    background-color: #20d679;
+    background-color: #0ea459;
     color: black;
     margin: 5px;
 }
@@ -9,7 +14,7 @@
 .btn-default:hover {
     background-color: #d9d9d9;
     border-color: #d9d9d9;
-    color: #20d679;
+    color: #0ea459;
 }
 
 .btn-success:hover {
@@ -31,7 +36,7 @@
 }
 
 .btn-info {
-    background-color: #20d679;
+    background-color: #0ea459;
     color: #fff;
 }
 
@@ -51,14 +56,14 @@
 }
 
 .input-group-addon {
-    background-color: #20d679;
+    background-color: #0ea459;
     border-color: black;
     border-radius: 5px;
-    color: #fff;
+    color: black;
 }
 
 .custom_input {
-    background-color: #20d679;
+    background-color: #0ea459;
     color: #fff;
     border-color: #d9d9d9;
     border: 1px;
@@ -142,7 +147,8 @@
 
 .main-page {
     color: black;
-    background: #d9d9d9;
+    background: #777;
+    height: calc(100vh - 0px);
 }
 
 .main-page-head {
@@ -151,7 +157,7 @@
 }
 
 .main-page-body {
-    height: calc(80vh - 0px);
+    height: calc(78.5vh - 0px);
 }
 
 .main-page-foot {
@@ -377,7 +383,7 @@ input[type=address] {
 }
 
 .progress-bar-success {
-    background-color: #20d679
+    background-color: #0ea459
 }
 
 .contextMenu {

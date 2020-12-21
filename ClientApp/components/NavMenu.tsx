@@ -81,7 +81,7 @@ export class NavMenu extends React.Component<Props, NavMenuState> {
 
                     {this.state.mobile ? null :
                         <NavLink to={'/'} className='link' >
-                            <img src={image} className="img-fluid inherit-height" />
+                            <img src={image} className="img-fluid inherit-height pad-15" />
                         </NavLink>
                     }
 
