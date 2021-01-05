@@ -13,10 +13,13 @@ namespace SmartChain.Web.Controllers
         public static ConfigFileReader config = new ConfigFileReader();
 
         private static string _api_endpoint = "";
+        private static bool Testing_In_Progress = false;
 
         public static string api_endpoint
         {
             get {
+                while (Testing_In_Progress)
+                    System.Threading.Thread.Sleep(10);
                 if(_api_endpoint == "") 
                     SetAPI();
                 return _api_endpoint; }
@@ -40,6 +43,7 @@ namespace SmartChain.Web.Controllers
 
         public static void SetAPI()
         {
+            Testing_In_Progress = true;
             JArray apis = config.lookupArray("api_servers");
             var TaskCollection = new List<Task<string>>();
             foreach (string endpoint in apis)
@@ -49,8 +53,10 @@ namespace SmartChain.Web.Controllers
                 TaskCollection.Add(t);
             }
 
-            api_endpoint = TaskCollection[Task.WaitAny(TaskCollection.ToArray())].Result;
-
+            string first_response = TaskCollection[Task.WaitAny(TaskCollection.ToArray())].Result;
+            if (first_response != "")
+                api_endpoint = first_response;
+            Testing_In_Progress = false;
         }
         public static void SetUtxo()
         {
@@ -71,7 +77,14 @@ namespace SmartChain.Web.Controllers
         {
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endpoint + path);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            try
+            {
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            }
+            catch{
+                return "";
+            }
+           
             return endpoint;
 
         }
