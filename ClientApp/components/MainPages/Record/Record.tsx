@@ -72,7 +72,7 @@ export class Record extends React.Component<Props, state> {
             <Modal.Body>
                 <dl className="dl-horizontal">
                   
-                    <dt>Signing Identity:</dt> <dd> <a href={"https://smartchain.validitytech.com/?user=" + this.state.result.username}>  {this.state.result.username} </a></dd>
+                    <dt>Signing Identity:</dt> <dd> <a href={"http://localhost:51069/user?username=" + this.state.result.username}>  {this.state.result.username} </a></dd>
                     <dt>Signing Address:</dt> <dd>{this.state.result.creator}</dd>
                     <dt>Date:</dt> <dd><UnixToDate unix={this.state.result.unixtime} /></dd>
                     <dt>Txid:</dt> <dd> <a href={"https://chainz.cryptoid.info/val/tx.dws?" + this.state.result.txid + ".htm"}>{this.state.result.txid}  </a>  </dd>
