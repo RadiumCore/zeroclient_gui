@@ -72,12 +72,11 @@ export class Record extends React.Component<Props, state> {
             <Modal.Body>
                 <dl className="dl-horizontal">
                   
-                    <dt>Signing Identity:</dt> <dd> <a href={"http://localhost:51069/user?username=" + this.state.result.username}>  {this.state.result.username} </a></dd>
+                    <h4><dt>Signing Identity:</dt> <dd> <a href={"http://localhost:51069/user=" + this.state.result.username}>  {this.state.result.username} </a></dd></h4>
                     <dt>Signing Address:</dt> <dd>{this.state.result.creator}</dd>
                     <dt>Date:</dt> <dd><UnixToDate unix={this.state.result.unixtime} /></dd>
-                    <dt>Txid:</dt> <dd> <a href={"https://chainz.cryptoid.info/val/tx.dws?" + this.state.result.txid + ".htm"}>{this.state.result.txid}  </a>  </dd>
-
-                    <dt>Title :</dt> <dd>{this.state.result.title}</dd>
+                    <dt>Txid:</dt> <dd> <a href={"https://chainz.cryptoid.info/val/tx.dws?" + this.state.result.txid + ".htm"}>{this.state.result.txid}  </a>  </dd>                   
+                    {this.Should_show(this.state.result.title) ? <span><dt>Title :</dt> <dd>{this.state.result.title}</dd></span> : null}
                     <dt>File Hash :</dt> <dd>{this.state.result.hash}</dd>
                    
                     
@@ -93,6 +92,13 @@ export class Record extends React.Component<Props, state> {
     render() {
         let content = this.get_content()
         return content
+    }
+
+    Should_show(st: string): boolean {
+        if (typeof (st) == 'string' && st.length > 0)
+            return true;
+
+        return false
     }
 }
 interface result {

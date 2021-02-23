@@ -68,7 +68,7 @@ export class Layout extends React.Component<LayoutProps, LayoutState> {
 
         var test : string = window.location.href;
         var start: number = test.lastIndexOf("/");
-        var end: number = test.lastIndexOf("?");
+        var end: number = test.lastIndexOf("=");
        
 
         if (test.substring(start, end) == '/record') {
