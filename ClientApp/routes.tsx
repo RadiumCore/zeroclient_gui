@@ -15,7 +15,7 @@ import { Tools } from './components/MainPages/Tools/Tools'
 export const routes = <Layout>
     <Route exact path='/' component={Users} />
     <Route path='/users' component={Users} />
-    <Route path='/records' component={Records} />
+    <Route path='/records' component={Records} />    
     <Route path='/elections' component={Elections} />
     <Route path='/assets' component={Assets} />
     <Route path='/assetclass' component={AssetClasses} />

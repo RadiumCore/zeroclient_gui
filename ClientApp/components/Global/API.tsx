@@ -150,6 +150,12 @@ export function gettopblock(callback: any) {
 export function GetUser(address: string, callback: any) {
     pub_get_json('GetUser/' + address, callback)
 }
+
+export function GetUserFromName(name: string, callback: any) {
+    pub_get_json('GetUserFromName/' + name, callback)
+}
+
+
 export function GetAllUsers(callback: any) {
     pub_get_json('getallusers', callback)
 }

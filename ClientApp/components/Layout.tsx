@@ -5,8 +5,9 @@ import { FindingAPI } from './MainPages/Loading/FindingAPI';
 import { SmartChainSyncing } from './MainPages/Loading/SmartChainSyncing';
 import * as settings from './Global/settings'
 import * as api from './Global/API'
+import { Record } from "./MainPages/Record/Record"
+import { Standalone_User } from "./MainPages/Users/User"
 import { Block } from './MainPages/_Interfaces/iBLock'
-
 export interface LayoutProps {
     children?: React.ReactNode;
 }
@@ -65,18 +66,46 @@ export class Layout extends React.Component<LayoutProps, LayoutState> {
             </div>;
         }
 
+        var test : string = window.location.href;
+        var start: number = test.lastIndexOf("/");
+        var end: number = test.lastIndexOf("?");
+       
+
+        if (test.substring(start, end) == '/record') {
+            let content = this.render_record()
+            return <div className='container-fluid' >
+                {content}
+            </div>;
+        }
+
+
+        if (test.substring(start, end) == '/user') {
+            let content = this.render_user()
+            return <div className='container-fluid' >
+                {content}
+            </div>;
+        }
+
         if (!this.state.loadcomplete) {
             let content = this.renderloading()
             return <div className='container-fluid' >
                 {content}
             </div>;
         }
+
+        
+
+
         if (!this.state.sync_complete) {
             let content = this.rendersmartchain()
             return <div className='container-fluid' >
                 {content}
             </div>;
         }
+
+       
+
+        
 
         content = this.rendermain();
         return <div className='container-fluid'>
@@ -95,6 +124,15 @@ export class Layout extends React.Component<LayoutProps, LayoutState> {
             <SmartChainSyncing synced_callback={this.SyncCompleteCallback.bind(this)} />
         </div>
     }
+
+    render_record() {
+        return <Record location={window.location.href}  />
+    }
+
+    render_user() {
+        return <Standalone_User location={window.location.href} />
+    }
+
     rendermain() {
         return <div className='row'>
             <div className='col-sm-2 '>
@@ -105,4 +143,7 @@ export class Layout extends React.Component<LayoutProps, LayoutState> {
             </div>
         </div>
     }
+
+   
+
 }
