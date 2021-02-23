@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using SmartChain.Web;
 using System;
 using System.Collections.Generic;
@@ -55,8 +55,11 @@ namespace SmartChain.Web.Controllers
 
             string first_response = TaskCollection[Task.WaitAny(TaskCollection.ToArray())].Result;
             if (first_response != "")
+            {
                 api_endpoint = first_response;
-            Testing_In_Progress = false;
+                Testing_In_Progress = false;
+            }
+               
         }
         public static void SetUtxo()
         {
