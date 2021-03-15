@@ -4,13 +4,13 @@ import t from '../../Language/Language'
 import * as statics from '../../Global/statics'
 import { TrueFalseIcon } from "../../Global/TrueFalseIcon"
 import * as api from '../../Global/API'
-import { Asset } from '../_Interfaces/Assets'
+import { NFT } from '../_Interfaces/Assets'
 import { Modal } from 'react-bootstrap'
 import { InfoPopup } from '../../Global/InfoPopup'
 
 import { result, blank_result } from '../_Interfaces/iResult'
 interface Props {
-    asset: Asset
+    NFT: NFT
 
     cancel_callback: any;
     continue_callback: any;
@@ -30,7 +30,7 @@ export class CreateAssetPopupConfirmation extends React.Component<Props, State>{
             loading: true,
         };
         const body = JSON.stringify({
-            asset: this.props.asset,
+            asset: this.props.NFT,
         })
         api.EncodeNewAsset(body, (data: any) => { this.setState({ encoding_result: data, loading: false }); })
     }
@@ -59,14 +59,14 @@ export class CreateAssetPopupConfirmation extends React.Component<Props, State>{
             <Modal.Body>
 
                 <dl className="dl-horizontal">
-                    <dt>Asset Name :</dt> <dd>{this.props.asset.name}</dd>
-                    <dt>{t[this.props.language].Description} :</dt><dd>{this.props.asset.description}</dd>
+                    <dt>Asset Name :</dt> <dd>{this.props.NFT.name}</dd>
+                    <dt>{t[this.props.language].Description} :</dt><dd>{this.props.NFT.description}</dd>
                     <dt>Asset Issued To :</dt><dd>{
-                        this.props.asset.owner == undefined ? <span>Self</span> : this.props.asset.owner.username
+                        this.props.NFT.owner == undefined ? <span>Self</span> : this.props.NFT.owner.username
                     }</dd>
-                    <dt>Creator can destroy :</dt><dd><TrueFalseIcon state={this.props.asset.can_creator_destroy} /></dd>
-                    <dt>Owner can destroy :</dt><dd><TrueFalseIcon state={this.props.asset.can_owner_destroy} /></dd>
-                    <dt>Can be Transfered :</dt><dd><TrueFalseIcon state={this.props.asset.can_owner_transfer} /></dd>
+                    <dt>Creator can destroy :</dt><dd><TrueFalseIcon state={this.props.NFT.can_creator_destroy} /></dd>
+                    <dt>Owner can destroy :</dt><dd><TrueFalseIcon state={this.props.NFT.can_owner_destroy} /></dd>
+                    <dt>Can be Transfered :</dt><dd><TrueFalseIcon state={this.props.NFT.can_owner_transfer} /></dd>
 
                 </dl>
 

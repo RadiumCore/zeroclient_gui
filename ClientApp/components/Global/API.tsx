@@ -1,4 +1,4 @@
-import { AssetClass } from '../MainPages/_Interfaces/Assets';
+import { NFTClass } from '../MainPages/_Interfaces/Assets';
 import * as statics from './statics'
 import { Block } from '../MainPages/_Interfaces/iBLock'
 

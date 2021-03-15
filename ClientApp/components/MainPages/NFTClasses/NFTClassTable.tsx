@@ -3,19 +3,19 @@ import { RouteComponentProps } from 'react-router';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css'
 import t from '../../Language/Language'
-import { Asset, blank_asset, blank_AssetClass } from '../_Interfaces/Assets'
-import { AssetClassInfoPopup } from './AssetClassInfoPopup'
+import { NFT, blank_NFT, blank_AssetClass } from '../_Interfaces/Assets'
+import { AssetClassInfoPopup } from './NFTClassInfoPopup'
 import * as Settings from '../../Global/settings'
 import { UserInfoPopup } from '../Users/UserInfoPopup'
-import { CreateGroupedAssetPopup } from "../AssetClasses/CreateGroupedAssetPopup"
+import { CreateGroupedAssetPopup } from "../NFTClasses/CreateGroupedAssetPopup"
 import * as statics from '../../Global/statics'
-import { AssetClass } from '../_Interfaces/Assets';
+import { NFTClass } from '../_Interfaces/Assets';
 import * as api from '../../Global/API'
 import { any } from 'prop-types';
 interface State {
-    classes: AssetClass[];
-    class: AssetClass;
-    assets: Asset[];
+    classes: NFTClass[];
+    class: NFTClass;
+    assets: NFT[];
     rangestart: number;
     loading: boolean;
     SelectedAssetTxid: string;
@@ -216,7 +216,7 @@ export class AssetClassTable extends React.Component<Props, State> {
                         show_all: !this.state.show_all
                     }, () => { this.filter() })
                 }} />
-                Show All Assets</label>
+                Show All NFTs</label>
             }
             {this.props.mobile ?
 

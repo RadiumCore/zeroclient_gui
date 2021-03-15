@@ -4,8 +4,8 @@ import { Layout } from './components/Layout';
 import { Users } from './components/MainPages/Users/Users';
 import { Records } from './components/MainPages/Records/Records'
 import { Elections } from './components/MainPages/Elections/Elections'
-import { Assets } from './components/MainPages/Assets/Assets'
-import { AssetClasses } from './components/MainPages/AssetClasses/AssetClasses'
+import { Assets } from './components/MainPages/NFT/NFTs'
+import { AssetClasses } from './components/MainPages/NFTClasses/NFTClasses'
 import { Network } from './components/MainPages/NetworkStats/NetworkStats';
 import { Login } from './components/MainPages/Login/Login'
 import { MyProfile } from './components/MainPages/MyProfile/MyProfile'
@@ -17,8 +17,8 @@ export const routes = <Layout>
     <Route path='/users' component={Users} />
     <Route path='/records' component={Records} />    
     <Route path='/elections' component={Elections} />
-    <Route path='/assets' component={Assets} />
-    <Route path='/assetclass' component={AssetClasses} />
+    <Route path='/NFTs' component={Assets} />
+    <Route path='/NFTgroups' component={AssetClasses} />
     <Route path='/stats' component={Network} />
     <Route path='/login' component={Login} />
     <Route path='/myprofile' component={MyProfile} />

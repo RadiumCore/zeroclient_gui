@@ -4,13 +4,14 @@ import t from '../../Language/Language'
 import * as statics from '../../Global/statics'
 import { TrueFalseIcon } from "../../Global/TrueFalseIcon"
 import * as api from '../../Global/API'
-import { Asset, asset_command } from '../_Interfaces/Assets'
+import { NFT, NFT_command, NFTClass } from '../_Interfaces/Assets'
 import { Modal } from 'react-bootstrap'
+import { AssetClasses } from './NFTClasses';
 import { InfoPopup } from '../../Global/InfoPopup'
 import { result, blank_result } from '../_Interfaces/iResult'
 interface Props {
-    asset: Asset
-    command: asset_command
+    class: NFTClass
+    command: NFT_command
 
     cancel_callback: any;
     continue_callback: any;
@@ -19,11 +20,11 @@ interface Props {
 interface State {
     encoding_result: result;
 }
-export class TransferAssetPopupConfirmation extends React.Component<Props, State>{
+export class DestroyAssetClassPopupConfirmation extends React.Component<Props, State>{
     constructor(props: Props) {
         super(props);
         this.state = {
-            encoding_result: blank_result,
+            encoding_result: blank_result
         };
 
         const body = JSON.stringify({
@@ -45,18 +46,20 @@ export class TransferAssetPopupConfirmation extends React.Component<Props, State
         if (!this.state.encoding_result.sucess) {
             return <InfoPopup title={'Error'} info={this.state.encoding_result.message} close_callback={this.props.cancel_callback} show_popup={true} language={this.props.language} />
         }
+
         return (<Modal show={true} onHide={() => { }}>
             <Modal.Header closeButton>
-                <Modal.Title>Please ensure the following information is correct</Modal.Title>
+                <Modal.Title>Please Ensure you want to destroy the following NFT!</Modal.Title>
 
             </Modal.Header>
             <Modal.Body>
 
-                <span>Transfer Asset</span>
+                <span>Destroy NFT</span>
                 <dl className="dl-horizontal">
-                    <dt>Asset Name :</dt> <dd>{this.props.asset.name}</dd>
-                    <dt>Asset Action:</dt> <dd>Transfer</dd>
-                    <dt>Destination:</dt> <dd>{this.props.command.destination!.username}</dd>
+                    <dt>NFT Name :</dt> <dd>{this.props.class.class_name}</dd>
+                    <dt>NFT Description :</dt> <dd>{this.props.class.class_description}</dd>
+                    <dt>NFT ID :</dt> <dd>{this.props.class.txid}</dd>
+                    <dt>NFT Action:</dt> <dd>Testroy</dd>
 
                 </dl>
 
@@ -73,7 +76,7 @@ export class TransferAssetPopupConfirmation extends React.Component<Props, State
 
                     <button type="button" className="btn btn-default btn-success" onClick={() => {
                         this.props.continue_callback(this.state.encoding_result)
-                    }}>Transfer</button>
+                    }}>Destroy</button>
                 </div>
             </Modal.Footer>
         </Modal>
@@ -81,4 +84,3 @@ export class TransferAssetPopupConfirmation extends React.Component<Props, State
         );
     }
 }
-

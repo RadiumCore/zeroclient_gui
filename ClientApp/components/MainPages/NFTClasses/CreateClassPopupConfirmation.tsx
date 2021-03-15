@@ -4,12 +4,12 @@ import t from '../../Language/Language'
 import * as statics from '../../Global/statics'
 import { TrueFalseIcon } from "../../Global/TrueFalseIcon"
 import * as api from '../../Global/API'
-import { AssetClass } from '../_Interfaces/Assets'
+import { NFTClass } from '../_Interfaces/Assets'
 import { Modal } from 'react-bootstrap'
 import { InfoPopup } from '../../Global/InfoPopup'
 import { result, blank_result } from '../_Interfaces/iResult'
 interface Props {
-    class: AssetClass
+    class: NFTClass
 
     cancel_callback: any;
     continue_callback: any;
@@ -55,7 +55,7 @@ export class CreateClassPopupConfirmation extends React.Component<Props, State>{
             <Modal.Body>
 
                 <dl className="dl-horizontal">
-                    <dt>Asset Name :</dt> <dd>{this.props.class.class_name}</dd>
+                    <dt>NFT Name :</dt> <dd>{this.props.class.class_name}</dd>
                     <dt>{t[this.props.language].Description} :</dt><dd>{this.props.class.class_description}</dd>
 
                 </dl>

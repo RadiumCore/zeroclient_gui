@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import t from '../../Language/Language'
-import { Asset, blank_asset, AssetClass } from '../_Interfaces/Assets'
+import { NFT, blank_NFT, NFTClass } from '../_Interfaces/Assets'
 import { InfoPopup } from '../../Global/InfoPopup'
 import * as Settings from '../../Global/settings'
 import { GetInputPopup } from '../../Global/GetInputPopup'
@@ -13,13 +13,13 @@ import { CreateGroupedAssetPopupConfirmation } from "./CreateGroupedAssetPopupCo
 import { TrueFalseIcon } from '../../Global/TrueFalseIcon'
 import { SmartTxSendResultComponent } from '../../Global/SmartTxSendResultComponent'
 import { CreateClassPopupConfirmation } from './CreateClassPopupConfirmation';
-import { Assets } from '../Assets/Assets';
+import {Assets } from '../NFT/NFTs';
 
 interface Props {
     close_callback: any;
     language: number;
     address?: string;
-    class: AssetClass;
+    class: NFTClass;
 }
 interface State {
     //control
@@ -31,7 +31,7 @@ interface State {
     show_info: boolean
 
     // stage 1 - gather info
-    Asset: Asset
+    Asset: NFT
     show_select_user: boolean
 
     // stage 2 - confirm info
@@ -63,7 +63,7 @@ export class CreateGroupedAssetPopup extends React.Component<Props, State>{
             info_body: "",
             show_info: false,
             //
-            Asset: blank_asset,
+            Asset: blank_NFT,
             show_select_user: false,
 
             //
@@ -79,7 +79,7 @@ export class CreateGroupedAssetPopup extends React.Component<Props, State>{
             issueto_display_name: "",
         };
 
-        var temp: Asset = this.state.Asset;
+        var temp: NFT = this.state.Asset;
 
         temp.asset_class = this.props.class;
 
@@ -139,7 +139,7 @@ export class CreateGroupedAssetPopup extends React.Component<Props, State>{
 
         return (<Modal backdrop={"static"} show={true} onHide={this.props.close_callback}>
             <Modal.Header closeButton>
-                <Modal.Title>Create New Grouped Asset</Modal.Title>
+                <Modal.Title>Create New Grouped NFT</Modal.Title>
 
             </Modal.Header>
             <Modal.Body>
@@ -147,19 +147,19 @@ export class CreateGroupedAssetPopup extends React.Component<Props, State>{
                 {this.props.class.asset_inherit_name ?
 
                     <dl className="dl-horizontal" >
-                        <dt>Asset Name :</dt><dd>{this.props.class.asset_name == "" || this.props.class.asset_name == undefined || this.props.class.asset_name == null ? this.props.class.class_name : this.props.class.asset_name}</dd>
-                        <dt>Asset Description :</dt><dd>{this.props.class.asset_name == "" || this.props.class.asset_name == undefined || this.props.class.asset_name == null ? this.props.class.class_description : this.props.class.asset_description}</dd>
+                        <dt>NFT Name :</dt><dd>{this.props.class.asset_name == "" || this.props.class.asset_name == undefined || this.props.class.asset_name == null ? this.props.class.class_name : this.props.class.asset_name}</dd>
+                        <dt>NFT Description :</dt><dd>{this.props.class.asset_name == "" || this.props.class.asset_name == undefined || this.props.class.asset_name == null ? this.props.class.class_description : this.props.class.asset_description}</dd>
                     </dl>
 
                     :
                     <span>
                         <div className="input-group">
-                            <span className="input-group-addon" id="basic-addon1">Asset Name*:</span>
+                            <span className="input-group-addon" id="basic-addon1">NFT Name*:</span>
                             <input type="text" className="form-control" placeholder="Name" aria-describedby="basic-addon1" required={true} name="username" value={this.state.Asset.name} onChange={e => { this.setState({ Asset: { ...this.state.Asset, name: e.target.value } }) }} ></input>
 
                         </div>
                         <div className="input-group">
-                            <span className="input-group-addon" id="basic-addon1">Asset Description:</span>
+                            <span className="input-group-addon" id="basic-addon1">NFT Description:</span>
                             <input type="text" className="form-control" placeholder="Description" aria-describedby="basic-addon1" required={true} name="username" value={this.state.Asset.description} onChange={e => { this.setState({ Asset: { ...this.state.Asset, description: e.target.value } }) }} ></input>
 
                         </div>
@@ -179,12 +179,12 @@ export class CreateGroupedAssetPopup extends React.Component<Props, State>{
                 <div className="checkbox">
                     <label>
                         <input type="checkbox" checked={this.state.issue_to_self} onChange={e => { this.setState({ issue_to_self: !this.state.issue_to_self }) }} />
-                        Issue Asset to yourself</label>
+                        Issue NFT to yourself</label>
                 </div>
                 <dl className="dl-horizontal" >
-                    <dt> Asset Creators can destroy assets :</dt> <dd><TrueFalseIcon state={this.props.class.asset_can_creator_destroy} /></dd>
-                    <dt> Asset Owner can destroy assets :</dt> <dd><TrueFalseIcon state={this.props.class.asset_can_owner_destroy} /></dd>
-                    <dt> Asset Owner can transfer assets :</dt> <dd><TrueFalseIcon state={this.props.class.asset_can_owner_transfer} /></dd>
+                    <dt> NFT Creators can destroy assets :</dt> <dd><TrueFalseIcon state={this.props.class.asset_can_creator_destroy} /></dd>
+                    <dt> NFT Owner can destroy assets :</dt> <dd><TrueFalseIcon state={this.props.class.asset_can_owner_destroy} /></dd>
+                    <dt> NFT Owner can transfer assets :</dt> <dd><TrueFalseIcon state={this.props.class.asset_can_owner_transfer} /></dd>
                 </dl>
 
             </Modal.Body>

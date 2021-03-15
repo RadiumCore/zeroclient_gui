@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { AssetTable } from './AssetTable';
+import { AssetClassTable } from './NFTClassTable';
 import t from "../../Language/Language";
-import { CreateAssetPopup } from './CreateAssetPopup'
-import { CreateClassPopup } from '../AssetClasses/CreateClassPopup'
-import { SmartChainSyncing } from '../Loading/SmartChainSyncing'
+import { CreateClassPopup } from './CreateClassPopup'
 import { InfoPopup } from '../../Global/InfoPopup'
 import * as settings from '../../Global/settings'
 interface State {
@@ -22,7 +20,7 @@ interface State {
     mobile: boolean;
 }
 
-export class Assets extends React.Component<RouteComponentProps<{}> | undefined, State> {
+export class AssetClasses extends React.Component<RouteComponentProps<{}> | undefined, State> {
     constructor(props: RouteComponentProps<{}> | undefined) {
         super(props);
         this.state = {
@@ -49,7 +47,7 @@ export class Assets extends React.Component<RouteComponentProps<{}> | undefined,
 
     ShowCreateAsset() {
         if (settings.current_identity.address == "") {
-            this.setState({ show_info: true, info_title: "Not logged in", info_body: "Please login create assets!" })
+            this.setState({ show_info: true, info_title: "Not logged in", info_body: "Please login create NFTs!" })
             return;
         }
 
@@ -58,7 +56,7 @@ export class Assets extends React.Component<RouteComponentProps<{}> | undefined,
 
     ShowCreateAssetClass() {
         if (settings.current_identity.address == "") {
-            this.setState({ show_info: true, info_title: "Not logged in", info_body: "Please login to create assets!" })
+            this.setState({ show_info: true, info_title: "Not logged in", info_body: "Please login to create NFTs!" })
             return;
         }
 
@@ -80,22 +78,18 @@ export class Assets extends React.Component<RouteComponentProps<{}> | undefined,
     get_content() {
         return <span>
             <div className="main-page-head">
-                <h1>Assets</h1>
+                <h1>NFT Groups</h1>
             </div>
             <div className="main-page-body" >
-                <AssetTable mobile={this.state.mobile} defaultPageSize={-1} showPagination={true} language={this.state.language} />
+                <AssetClassTable mobile={this.state.mobile} defaultPageSize={-1} showPagination={true} language={this.state.language} />
 
             </div>
             <div className="main-page-foot" >
-                <button type="button" className="btn btn-default " onClick={this.ShowCreateAsset.bind(this)}>Create An Asset</button>
+
                 <button type="button" className="btn btn-default " onClick={this.ShowCreateAssetClass.bind(this)}>Create An Asset Class</button>
 
             </div>
 
-            {this.state.show_create ?
-                <CreateAssetPopup close_callback={this.CloseCreateAsset.bind(this)} language={this.state.language} />
-                : null
-            }
             {this.state.show_create_class ?
                 <CreateClassPopup close_callback={this.CloseCreateAssetClass.bind(this)} language={this.state.language} />
                 : null

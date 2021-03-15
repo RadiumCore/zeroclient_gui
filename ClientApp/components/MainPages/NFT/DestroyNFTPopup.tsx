@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import t from '../../Language/Language'
-import { Asset, asset_command, blank_asset_command, asset_command_type } from '../_Interfaces/Assets'
+import { NFT, NFTClass, blank_asset_command, asset_command_type, NFT_command } from '../_Interfaces/Assets'
 import { InfoPopup } from '../../Global/InfoPopup'
 import * as Settings from '../../Global/settings'
 import { GetInputPopup } from '../../Global/GetInputPopup'
@@ -10,16 +10,16 @@ import { User, blank_user } from "../_Interfaces/iUser"
 import { SelectUser } from "../../Global/SelectUser"
 import * as settings from "../../Global/settings"
 import { SmartTxSendResultComponent } from "../../Global/SmartTxSendResultComponent"
-import { DestroyAssetPopupConfirmation } from "./DestroyAssetPopupConfirmation"
+import { DestroyAssetPopupConfirmation } from "./DestroyNFTPopupConfirmation"
 
 interface Props {
-    asset: Asset
+    NFT: NFT
     close_callback: any;
     sucess_callback: any;
     language: number;
 }
 interface State {
-    command: asset_command
+    command: NFT_command
 
     //info popup
     info_title: string
@@ -53,7 +53,7 @@ export class DestroyAssetPopup extends React.Component<Props, State>{
             command: {
                 destination: undefined,
                 amount: undefined,
-                asset_id: this.props.asset.txid,
+                asset_id: this.props.NFT.txid,
                 command_type: asset_command_type.destroy,
             },
             confirm_name: "",
@@ -75,11 +75,11 @@ export class DestroyAssetPopup extends React.Component<Props, State>{
     }
 
     validate() {
-        if (this.props.asset.txid != this.state.confirm_id) {
+        if (this.props.NFT.txid != this.state.confirm_id) {
             this.setState({ show_info: true, info_title: "Error", info_body: "Confirmation ID does not match" })
             return;
         }
-        if (this.props.asset.name != this.state.confirm_name) {
+        if (this.props.NFT.name != this.state.confirm_name) {
             this.setState({ show_info: true, info_title: "Error", info_body: "Confirmation name does not match" })
             return;
         }
@@ -87,28 +87,28 @@ export class DestroyAssetPopup extends React.Component<Props, State>{
         // Destroy command validation
 
         // if base permission is false, then below operators are false.
-        var creator_destroy_ok: boolean = this.props.asset.can_creator_destroy;
-        var owner_destroy_ok: boolean = this.props.asset.can_owner_destroy;
+        var creator_destroy_ok: boolean = this.props.NFT.can_creator_destroy;
+        var owner_destroy_ok: boolean = this.props.NFT.can_owner_destroy;
 
         // check current identity against creator
-        if (settings.current_identity.address != this.props.asset.creator.address) {
+        if (settings.current_identity.address != this.props.NFT.creator.address) {
             creator_destroy_ok = false;
         }
 
         // check current identity agains owner
-        if (this.props.asset.owner == undefined) {
+        if (this.props.NFT.owner == undefined) {
             //owner can't destory if owner is undefined
             owner_destroy_ok = false;
         }
         else {
             //assuming owner is defined
-            if (this.props.asset.owner.address != settings.current_identity.address) {
+            if (this.props.NFT.owner.address != settings.current_identity.address) {
                 owner_destroy_ok = false;
             }
         }
 
         if (!creator_destroy_ok && !owner_destroy_ok) {
-            this.setState({ show_info: true, info_title: "Error", info_body: "You do not have the permissions to destroy this asset!" })
+            this.setState({ show_info: true, info_title: "Error", info_body: "You do not have the permissions to destroy this NFT!" })
             return;
         }
 
@@ -132,7 +132,7 @@ export class DestroyAssetPopup extends React.Component<Props, State>{
 
     select_content() {
         if (this.state.show_confirmation) {
-            return <DestroyAssetPopupConfirmation asset={this.props.asset} command={this.state.command} cancel_callback={this.cancel_confirmation.bind(this)} continue_callback={this.send.bind(this)} language={this.props.language} />
+            return <DestroyAssetPopupConfirmation NFT={this.props.NFT} command={this.state.command} cancel_callback={this.cancel_confirmation.bind(this)} continue_callback={this.send.bind(this)} language={this.props.language} />
         }
         if (this.state.show_result) {
             console.log(this.state)
@@ -145,26 +145,26 @@ export class DestroyAssetPopup extends React.Component<Props, State>{
 
         return (<Modal backdrop={"static"} show={true} onHide={this.props.close_callback}>
             <Modal.Header closeButton>
-                <Modal.Title>Destroy Asset</Modal.Title>
+                <Modal.Title>Destroy NFT</Modal.Title>
                 <dl className="dl-horizontal">
-                    <dt>Name :</dt> <dd>{this.props.asset.name}</dd>
-                    <dt>ID :</dt> <dd>{this.props.asset.txid}</dd>
-                    <dt>Owner :</dt> <dd>{this.props.asset.owner!.username}</dd>
-                    <dt>ID :</dt> <dd>{this.props.asset.creator.username}</dd>
+                    <dt>Name :</dt> <dd>{this.props.NFT.name}</dd>
+                    <dt>ID :</dt> <dd>{this.props.NFT.txid}</dd>
+                    <dt>Owner :</dt> <dd>{this.props.NFT.owner!.username}</dd>
+                    <dt>ID :</dt> <dd>{this.props.NFT.creator.username}</dd>
                 </dl>
 
             </Modal.Header>
             <Modal.Body>
 
-                <span>Destroying an asset is an irriviersable action.</span>
-                <span>Please enter the asset name and ID below to confirm</span>
+                <span>Destroying an NFT is an irriviersable action.</span>
+                <span>Please enter the NFT name and ID below to confirm</span>
                 <div className="input-group">
-                    <span className="input-group-addon" id="basic-addon1">Asset Name*:</span>
+                    <span className="input-group-addon" id="basic-addon1">NFT Name*:</span>
                     <input type="text" className="form-control" placeholder="Name" aria-describedby="basic-addon1" required={true} name="username" value={this.state.confirm_name} onChange={e => { this.setState({ confirm_name: e.target.value }) }} ></input>
 
                 </div>
                 <div className="input-group">
-                    <span className="input-group-addon" id="basic-addon1">Asset ID:</span>
+                    <span className="input-group-addon" id="basic-addon1">NFT ID:</span>
                     <input type="text" className="form-control" placeholder="ID" aria-describedby="basic-addon1" required={true} name="username" value={this.state.confirm_id} onChange={e => { this.setState({ confirm_id: e.target.value }) }} ></input>
 
                 </div>

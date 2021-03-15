@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import t from '../../Language/Language'
-import { AssetClass, blank_AssetClass } from '../_Interfaces/Assets'
+import { NFTClass, blank_AssetClass } from '../_Interfaces/Assets'
 import { InfoPopup } from '../../Global/InfoPopup'
 import * as Settings from '../../Global/settings'
 import { TrueFalseIcon } from '../../Global/TrueFalseIcon'
@@ -11,10 +11,10 @@ import { User, blank_user } from "../_Interfaces/iUser"
 import { SelectUser } from "../../Global/SelectUser"
 import * as settings from "../../Global/settings"
 import { SmartTxSendResultComponent } from '../../Global/SmartTxSendResultComponent'
-import { CreateGroupedAssetPopup } from "../AssetClasses/CreateGroupedAssetPopup"
+import { CreateGroupedAssetPopup } from "../NFTClasses/CreateGroupedAssetPopup"
 import * as api from '../../Global/API'
-import { TransferAssetClassPopup } from './TransferAssetClassPopup';
-import { DestroyAssetClassPopup } from './DestroyAssetClassPopup';
+import { TransferAssetClassPopup } from './TransferNFTClassPopup';
+import { DestroyAssetClassPopup } from './DestroyNFTClassPopup';
 
 interface Props {
     assettxid: string
@@ -23,7 +23,7 @@ interface Props {
     address?: string;
 }
 interface State {
-    class: AssetClass
+    class: NFTClass
 
     //info popup
     info_title: string
@@ -55,7 +55,7 @@ export class AssetClassInfoPopup extends React.Component<Props, State>{
             class: blank_AssetClass,
             load_complete: false,
         };
-        api.AssetClass(this.props.assettxid, (data: AssetClass) => { this.setState({ class: data, load_complete: true }) })
+        api.AssetClass(this.props.assettxid, (data: NFTClass) => { this.setState({ class: data, load_complete: true }) })
     }
 
     open_create_asset() {
@@ -130,7 +130,7 @@ export class AssetClassInfoPopup extends React.Component<Props, State>{
 
         return (<Modal backdrop={"static"} show={true} onHide={this.props.close_callback}>
             <Modal.Header closeButton>
-                <Modal.Title>Asset Group Information</Modal.Title>
+                <Modal.Title>NFT Group Information</Modal.Title>
 
             </Modal.Header>
             <Modal.Body>
@@ -144,16 +144,16 @@ export class AssetClassInfoPopup extends React.Component<Props, State>{
                     <dt>Creator :</dt> <dd>{this.state.class.creator.username}</dd>
                     <dt>Owner can transfer group :</dt> <dd><TrueFalseIcon state={this.state.class.class_transferable} /></dd>
                     <dt>Owner can destroy group :</dt> <dd><TrueFalseIcon state={this.state.class.class_can_owner_destroy} /></dd>
-                    <dt>Assets have identical names :</dt> <dd><TrueFalseIcon state={this.state.class.asset_inherit_name} /></dd>
+                    <dt>NFTs have identical names :</dt> <dd><TrueFalseIcon state={this.state.class.asset_inherit_name} /></dd>
                     {this.state.class.asset_inherit_name ?
                         <span>
-                            <dt> Asset Name :</dt> <dd>{this.state.class.asset_name = "" ? this.state.class.class_name : this.state.class.asset_name}</dd>
-                            <dt>Asset Description </dt> <dd>{this.state.class.asset_description = "" ? this.state.class.class_name : this.state.class.asset_description}</dd>
+                            <dt> NFT Name :</dt> <dd>{this.state.class.asset_name = "" ? this.state.class.class_name : this.state.class.asset_name}</dd>
+                            <dt>NFT Description </dt> <dd>{this.state.class.asset_description = "" ? this.state.class.class_name : this.state.class.asset_description}</dd>
                         </span>
                         : null}
-                    <dt> Asset Creators can destroy assets :</dt> <dd><TrueFalseIcon state={this.state.class.asset_can_creator_destroy} /></dd>
-                    <dt> Asset Owner can destroy assets :</dt> <dd><TrueFalseIcon state={this.state.class.asset_can_owner_destroy} /></dd>
-                    <dt> Asset Owner can transfer assets :</dt> <dd><TrueFalseIcon state={this.state.class.asset_can_owner_transfer} /></dd>
+                    <dt> Creators can destroy NFTs :</dt> <dd><TrueFalseIcon state={this.state.class.asset_can_creator_destroy} /></dd>
+                    <dt> Owner can destroy NFTs :</dt> <dd><TrueFalseIcon state={this.state.class.asset_can_owner_destroy} /></dd>
+                    <dt> Owner can transfer NFTs :</dt> <dd><TrueFalseIcon state={this.state.class.asset_can_owner_transfer} /></dd>
 
                 </dl >
 
@@ -161,7 +161,7 @@ export class AssetClassInfoPopup extends React.Component<Props, State>{
                     {this.can_destroy() ? <button type="button" className="btn btn-default btn-danger" onClick={this.open_destroy_asset_class.bind(this)} >Destroy Asset Group</button> : null}
 
                     {this.can_transfer() ? <button type="button" className="btn btn-default btn-success" onClick={this.open_transfer_asset_class.bind(this)} >Transfer Asset Group</button> : null}
-                    {settings.current_identity.address == "" ? "Please loging to view asset destroy/transfer options" : null}
+                    {settings.current_identity.address == "" ? "Please loging to view NFT destroy/transfer options" : null}
                 </div>
 
             </Modal.Body>

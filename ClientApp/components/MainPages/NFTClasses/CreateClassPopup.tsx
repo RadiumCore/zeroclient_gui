@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import t from '../../Language/Language'
-import { AssetClass, blank_AssetClass } from '../_Interfaces/Assets'
+import { NFT, blank_AssetClass, NFTClass } from '../_Interfaces/Assets'
 import { InfoPopup } from '../../Global/InfoPopup'
 import * as Settings from '../../Global/settings'
 import { GetInputPopup } from '../../Global/GetInputPopup'
@@ -27,7 +27,7 @@ interface State {
     show_info: boolean
 
     // stage 1 - gather info
-    Class: AssetClass
+    Class: NFTClass
     show_select_user: boolean
 
     // stage 2 - confirm info
@@ -118,7 +118,7 @@ export class CreateClassPopup extends React.Component<Props, State>{
 
         return (<Modal backdrop={"static"} show={true} onHide={this.props.close_callback}>
             <Modal.Header closeButton>
-                <Modal.Title>Create New Asset Group</Modal.Title>
+                <Modal.Title>Create New NFT Group</Modal.Title>
 
             </Modal.Header>
             <Modal.Body>
@@ -134,12 +134,12 @@ export class CreateClassPopup extends React.Component<Props, State>{
                 </div>
                 {!this.state.use_custom_classwide_name && this.state.Class.asset_inherit_name ? <span>
                     <div className="input-group">
-                        <span className="input-group-addon" id="basic-addon1">Asset Name*:</span>
+                        <span className="input-group-addon" id="basic-addon1">NFT Name*:</span>
                         <input type="text" className="form-control" placeholder="Name" aria-describedby="basic-addon1" required={true} name="class_name" value={this.state.Class.asset_name} onChange={e => { this.setState({ Class: { ...this.state.Class, asset_name: e.target.value } }) }} ></input>
 
                     </div>
                     <div className="input-group">
-                        <span className="input-group-addon" id="basic-addon1">Asset Description:</span>
+                        <span className="input-group-addon" id="basic-addon1">NFT Description:</span>
                         <input type="text" className="form-control" placeholder="Description" aria-describedby="basic-addon1" required={true} name="class_description" value={this.state.Class.asset_description} onChange={e => { this.setState({ Class: { ...this.state.Class, asset_description: e.target.value } }) }} ></input>
 
                     </div> </span>
@@ -154,38 +154,38 @@ export class CreateClassPopup extends React.Component<Props, State>{
                 <div className="checkbox">
                     <label>
                         <input type="checkbox" checked={this.state.Class.class_can_owner_destroy} onChange={e => { this.setState({ Class: { ...this.state.Class, class_can_owner_destroy: !this.state.Class.class_can_owner_destroy } }) }} />
-                        Class owner can destroy class and all associated assets</label>
+                        Class owner can destroy class and all associated NFTs</label>
                 </div>
 
                 <div className="checkbox">
                     <label>
                         <input type="checkbox" checked={this.state.Class.asset_inherit_name} onChange={e => { this.setState({ Class: { ...this.state.Class, asset_inherit_name: !this.state.Class.asset_inherit_name }, use_custom_classwide_name: !this.state.Class.asset_inherit_name }) }} />
-                        All assets have identical names</label>
+                        All NFTs have identical names</label>
                 </div>
                 {this.state.Class.asset_inherit_name ?
                     <div className="checkbox check-margin10">
                         <label>
                             <input type="checkbox" checked={this.state.use_custom_classwide_name} onChange={e => { this.setState({ use_custom_classwide_name: !this.state.use_custom_classwide_name }) }} />
-                            Assets inherit name from class</label>
+                            NFTs inherit name from class</label>
                     </div>
                     : null}
 
                 <div className="checkbox">
                     <label>
                         <input type="checkbox" checked={this.state.Class.asset_can_creator_destroy} onChange={e => { this.setState({ Class: { ...this.state.Class, asset_can_creator_destroy: !this.state.Class.asset_can_creator_destroy } }) }} />
-                        Asset Creators can destroy own assets of this class</label>
+                        NFT Creators can destroy own NFTs of this class</label>
                 </div>
 
                 <div className="checkbox">
                     <label>
                         <input type="checkbox" checked={this.state.Class.asset_can_owner_destroy} onChange={e => { this.setState({ Class: { ...this.state.Class, asset_can_owner_destroy: !this.state.Class.asset_can_owner_destroy } }) }} />
-                        Asset Owner can destroy own assets of this class</label>
+                        NFT Owner can destroy own NFTs of this class</label>
                 </div>
 
                 <div className="checkbox">
                     <label>
                         <input type="checkbox" checked={this.state.Class.asset_can_owner_transfer} onChange={e => { this.setState({ Class: { ...this.state.Class, asset_can_owner_transfer: !this.state.Class.asset_can_owner_transfer } }) }} />
-                        Asset Owner can transfer own assets of this class</label>
+                        NFT Owner can transfer own NFTs of this class</label>
                 </div>
 
             </Modal.Body>

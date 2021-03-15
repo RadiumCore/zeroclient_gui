@@ -4,13 +4,13 @@ import t from '../../Language/Language'
 import * as statics from '../../Global/statics'
 import { TrueFalseIcon } from "../../Global/TrueFalseIcon"
 import * as api from '../../Global/API'
-import { Asset, asset_command } from '../_Interfaces/Assets'
+import { NFT, NFT_command } from '../_Interfaces/Assets'
 import { Modal } from 'react-bootstrap'
 import { result, blank_result } from '../_Interfaces/iResult'
 import { InfoPopup } from '../../Global/InfoPopup'
 interface Props {
-    asset: Asset
-    command: asset_command
+    NFT: NFT
+    command: NFT_command
 
     cancel_callback: any;
     continue_callback: any;
@@ -52,12 +52,12 @@ export class DestroyAssetPopupConfirmation extends React.Component<Props, State>
             </Modal.Header>
             <Modal.Body>
 
-                <span>Destroy Asset</span>
+                <span>Destroy NFT</span>
                 <dl className="dl-horizontal">
-                    <dt>Asset Name :</dt> <dd>{this.props.asset.name}</dd>
-                    <dt>Asset Description :</dt> <dd>{this.props.asset.description}</dd>
-                    <dt>Asset ID :</dt> <dd>{this.props.asset.txid}</dd>
-                    <dt>Asset Action:</dt> <dd>Testroy</dd>
+                    <dt>NFT Name :</dt> <dd>{this.props.NFT.name}</dd>
+                    <dt>NFT Description :</dt> <dd>{this.props.NFT.description}</dd>
+                    <dt>NFT ID :</dt> <dd>{this.props.NFT.txid}</dd>
+                    <dt>NFT Action:</dt> <dd>Testroy</dd>
 
                 </dl>
 

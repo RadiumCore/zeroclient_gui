@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import t from '../../Language/Language'
-import { Asset, blank_asset } from '../_Interfaces/Assets'
+import { NFT, blank_NFT } from '../_Interfaces/Assets'
 import { InfoPopup } from '../../Global/InfoPopup'
 import * as Settings from '../../Global/settings'
 import { GetInputPopup } from '../../Global/GetInputPopup'
@@ -9,7 +9,7 @@ import { Modal } from 'react-bootstrap'
 import { User, blank_user } from "../_Interfaces/iUser"
 import { SelectUser } from "../../Global/SelectUser"
 import * as settings from "../../Global/settings"
-import { CreateAssetPopupConfirmation } from "./CreateAssetPopupConfirmation"
+import { CreateAssetPopupConfirmation } from "./CreateNFTPopupConfirmation"
 
 import { SmartTxSendResultComponent } from '../../Global/SmartTxSendResultComponent'
 
@@ -28,7 +28,7 @@ interface State {
     show_info: boolean
 
     // stage 1 - gather info
-    Asset: Asset
+    NFT: NFT
     show_select_user: boolean
 
     // stage 2 - confirm info
@@ -60,7 +60,7 @@ export class CreateAssetPopup extends React.Component<Props, State>{
             info_body: "",
             show_info: false,
             //
-            Asset: blank_asset,
+            NFT: blank_NFT,
             show_select_user: false,
 
             //
@@ -84,13 +84,13 @@ export class CreateAssetPopup extends React.Component<Props, State>{
     set_user(u: User) {
         if (u == undefined) { return }
         this.setState({ issueto_display_name: "User:" + u.username + " Address:" + u.address })
-        this.setState({ Asset: { ...this.state.Asset, owner: u } })
+        this.setState({ NFT: { ...this.state.NFT, owner: u } })
         this.setState({ show_select_user: false })
     }
 
     validate() {
         if (this.state.issue_to_self) {
-            this.setState({ Asset: { ...this.state.Asset, owner: settings.current_identity } })
+            this.setState({ NFT: { ...this.state.NFT, owner: settings.current_identity } })
         }
 
         this.setState({ show_confirmation: true })
@@ -117,7 +117,7 @@ export class CreateAssetPopup extends React.Component<Props, State>{
 
     select_content() {
         if (this.state.show_confirmation) {
-            return <CreateAssetPopupConfirmation asset={this.state.Asset} cancel_callback={this.cancel_confirmation.bind(this)} continue_callback={this.send.bind(this)} language={this.props.language} />
+            return <CreateAssetPopupConfirmation NFT={this.state.NFT} cancel_callback={this.cancel_confirmation.bind(this)} continue_callback={this.send.bind(this)} language={this.props.language} />
         }
         if (this.state.show_result) {
             console.log(this.state)
@@ -130,18 +130,18 @@ export class CreateAssetPopup extends React.Component<Props, State>{
 
         return (<Modal backdrop={"static"} show={true} onHide={this.props.close_callback}>
             <Modal.Header closeButton>
-                <Modal.Title>Create New Single Asset</Modal.Title>
+                <Modal.Title>Create New Single NFT</Modal.Title>
 
             </Modal.Header>
             <Modal.Body>
                 <div className="input-group">
                     <span className="input-group-addon" id="basic-addon1">Asset Name*:</span>
-                    <input type="text" className="form-control" placeholder="Name" aria-describedby="basic-addon1" required={true} name="username" value={this.state.Asset.name} onChange={e => { this.setState({ Asset: { ...this.state.Asset, name: e.target.value } }) }} ></input>
+                    <input type="text" className="form-control" placeholder="Name" aria-describedby="basic-addon1" required={true} name="username" value={this.state.NFT.name} onChange={e => { this.setState({ NFT: { ...this.state.NFT, name: e.target.value } }) }} ></input>
 
                 </div>
                 <div className="input-group">
                     <span className="input-group-addon" id="basic-addon1">Asset Description:</span>
-                    <input type="text" className="form-control" placeholder="Description" aria-describedby="basic-addon1" required={true} name="username" value={this.state.Asset.description} onChange={e => { this.setState({ Asset: { ...this.state.Asset, description: e.target.value } }) }} ></input>
+                    <input type="text" className="form-control" placeholder="Description" aria-describedby="basic-addon1" required={true} name="username" value={this.state.NFT.description} onChange={e => { this.setState({ NFT: { ...this.state.NFT, description: e.target.value } }) }} ></input>
 
                 </div>
                 <p />
@@ -162,19 +162,19 @@ export class CreateAssetPopup extends React.Component<Props, State>{
 
                 <div className="checkbox">
                     <label>
-                        <input type="checkbox" checked={this.state.Asset.can_creator_destroy} onChange={e => { this.setState({ Asset: { ...this.state.Asset, can_creator_destroy: !this.state.Asset.can_creator_destroy } }) }} />
+                        <input type="checkbox" checked={this.state.NFT.can_creator_destroy} onChange={e => { this.setState({ NFT: { ...this.state.NFT, can_creator_destroy: !this.state.NFT.can_creator_destroy } }) }} />
                         Asset can be destroyed by the creator</label>
                 </div>
 
                 <div className="checkbox">
                     <label>
-                        <input type="checkbox" checked={this.state.Asset.can_owner_destroy} onChange={e => { this.setState({ Asset: { ...this.state.Asset, can_owner_destroy: !this.state.Asset.can_owner_destroy } }) }} />
+                        <input type="checkbox" checked={this.state.NFT.can_owner_destroy} onChange={e => { this.setState({ NFT: { ...this.state.NFT, can_owner_destroy: !this.state.NFT.can_owner_destroy } }) }} />
                         Asset can be destroyed by the owner</label>
                 </div>
 
                 <div className="checkbox">
                     <label>
-                        <input type="checkbox" checked={this.state.Asset.can_owner_transfer} onChange={e => { this.setState({ Asset: { ...this.state.Asset, can_owner_transfer: !this.state.Asset.can_owner_transfer } }) }} />
+                        <input type="checkbox" checked={this.state.NFT.can_owner_transfer} onChange={e => { this.setState({ NFT: { ...this.state.NFT, can_owner_transfer: !this.state.NFT.can_owner_transfer } }) }} />
                         Asset can be transfered</label>
                 </div>
 

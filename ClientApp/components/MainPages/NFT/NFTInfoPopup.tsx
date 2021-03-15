@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import t from '../../Language/Language'
-import { Asset, blank_asset, asset_command, blank_asset_command, asset_command_type } from '../_Interfaces/Assets'
+import { NFT, blank_NFT, NFT_command, blank_asset_command, asset_command_type } from '../_Interfaces/Assets'
 import { InfoPopup } from '../../Global/InfoPopup'
 import * as Settings from '../../Global/settings'
 import { TrueFalseIcon } from '../../Global/TrueFalseIcon'
@@ -10,8 +10,8 @@ import { Modal } from 'react-bootstrap'
 import { User, blank_user } from "../_Interfaces/iUser"
 import { SelectUser } from "../../Global/SelectUser"
 import * as settings from "../../Global/settings"
-import { DestroyAssetPopup } from "./DestroyAssetPopup"
-import { TransferAssetPopup } from "./TransferAssetPopup"
+import { DestroyAssetPopup } from "./DestroyNFTPopup"
+import { TransferAssetPopup } from "./TransferNFTPopup"
 import { SmartTxSendResultComponent } from '../../Global/SmartTxSendResultComponent'
 import * as api from '../../Global/API'
 interface Props {
@@ -21,7 +21,7 @@ interface Props {
     address?: string;
 }
 interface State {
-    asset: Asset
+    asset: NFT
 
     //info popup
     info_title: string
@@ -48,7 +48,7 @@ export class AssetInfoPopup extends React.Component<Props, State>{
             //
             show_destroy_asset: false,
             show_transfer_asset: false,
-            asset: blank_asset,
+            asset: blank_NFT,
             load_complete: false,
         };
         api.GetAsset(this.props.assettxid, (data: any) => { this.setState({ asset: data, load_complete: true }); })
@@ -118,7 +118,7 @@ export class AssetInfoPopup extends React.Component<Props, State>{
 
         return (<Modal backdrop={"static"} show={true} onHide={this.props.close_callback}>
             <Modal.Header closeButton>
-                <Modal.Title>Asset Information</Modal.Title>
+                <Modal.Title>NFT Information</Modal.Title>
 
             </Modal.Header>
             <Modal.Body>
@@ -144,7 +144,7 @@ export class AssetInfoPopup extends React.Component<Props, State>{
                     {this.can_destroy() ? <button type="button" className="btn btn-default btn-danger" onClick={this.open_destroy_asset.bind(this)} >Destroy Asset</button> : null}
 
                     {this.can_transfer() ? <button type="button" className="btn btn-default btn-success" onClick={this.open_transfer_asset.bind(this)} >Transfer Asset</button> : null}
-                    {settings.current_identity.address == "" ? "Please loging to view asset destroy/transfer options" : null}
+                    {settings.current_identity.address == "" ? "Please loging to view NFT destroy/transfer options" : null}
                 </div>
 
             </Modal.Body>
@@ -159,7 +159,7 @@ export class AssetInfoPopup extends React.Component<Props, State>{
             }
 
             {this.state.show_destroy_asset ?
-                <DestroyAssetPopup asset={this.state.asset} close_callback={this.close_destroy_asset.bind(this)} language={this.props.language} sucess_callback={this.close.bind(this)} />
+                <DestroyAssetPopup NFT={this.state.asset} close_callback={this.close_destroy_asset.bind(this)} language={this.props.language} sucess_callback={this.close.bind(this)} />
                 : null
             }
 

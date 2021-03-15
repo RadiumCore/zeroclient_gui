@@ -3,17 +3,17 @@ import { RouteComponentProps } from 'react-router';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css'
 import t from '../../Language/Language'
-import { CreateAssetPopup } from './CreateAssetPopup'
+import { CreateAssetPopup } from './CreateNFTPopup'
 import { UnixToDate } from '../../Global/UnixToDate'
 import { TrueFalseIcon } from '../../Global/TrueFalseIcon'
-import { Asset } from '../_Interfaces/Assets'
-import { AssetInfoPopup } from './/AssetInfoPopup'
+import { NFT } from '../_Interfaces/Assets'
+import { AssetInfoPopup } from './NFTInfoPopup'
 import * as Settings from '../../Global/settings'
 import * as api from '../../Global/API'
 import * as statics from '../../Global/statics'
 
 interface State {
-    assets: Asset[];
+    assets: NFT[];
     rangestart: number;
     loading: boolean;
     SelectedAssetTxid: string;
@@ -168,7 +168,7 @@ export class AssetTable extends React.Component<Props, State> {
                         show_all: !this.state.show_all
                     }, () => { this.filter() })
                 }} />
-                Show All Assets</label>
+                Show All NFTs</label>
             }
             {this.props.mobile ?
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { User, blank_user } from './iUser'
 
-export interface AssetClass {
+export interface NFTClass {
     block: 0,
     unix_time: 0,
     txid: string;
@@ -32,7 +32,7 @@ export interface AssetClass {
     owner: User;
 }
 
-export const blank_AssetClass: AssetClass = {
+export const blank_AssetClass: NFTClass = {
     block: 0,
     unix_time: 0,
     txid: "",
@@ -63,13 +63,13 @@ export const blank_AssetClass: AssetClass = {
     owner: blank_user,
 }
 
-export interface Asset {
+export interface NFT {
     name: string;
     description: string;
     can_creator_destroy: boolean;
     can_owner_destroy: boolean;
     can_owner_transfer: boolean;
-    asset_class?: AssetClass;
+    asset_class?: NFTClass;
     owner: User;
     transfer_inclusions: string;
     transfer_exclusions: string;
@@ -80,7 +80,7 @@ export interface Asset {
     creator: User;
 }
 
-export const blank_asset: Asset = {
+export const blank_NFT: NFT = {
     name: "",
     description: "",
     can_creator_destroy: false,
@@ -96,14 +96,14 @@ export const blank_asset: Asset = {
     owner: blank_user,
 }
 
-export interface asset_command {
+export interface NFT_command {
     asset_id: string,
     command_type: asset_command_type,
     destination?: User,
     amount?: number,
 }
 
-export const blank_asset_command: asset_command = {
+export const blank_asset_command: NFT_command = {
     asset_id: "",
     command_type: 1
 }

@@ -4,14 +4,14 @@ import t from '../../Language/Language'
 import * as statics from '../../Global/statics'
 import { TrueFalseIcon } from "../../Global/TrueFalseIcon"
 import * as api from '../../Global/API'
-import { Asset, asset_command, AssetClass } from '../_Interfaces/Assets'
+import { NFT, NFT_command, NFTClass } from '../_Interfaces/Assets'
 import { Modal } from 'react-bootstrap'
-import { AssetClasses } from './AssetClasses';
 import { InfoPopup } from '../../Global/InfoPopup'
+
 import { result, blank_result } from '../_Interfaces/iResult'
 interface Props {
-    class: AssetClass
-    command: asset_command
+    class: NFTClass
+    command: NFT_command
 
     cancel_callback: any;
     continue_callback: any;
@@ -20,7 +20,7 @@ interface Props {
 interface State {
     encoding_result: result;
 }
-export class DestroyAssetClassPopupConfirmation extends React.Component<Props, State>{
+export class TransferNFTClassPopupConfirmation extends React.Component<Props, State>{
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -30,7 +30,6 @@ export class DestroyAssetClassPopupConfirmation extends React.Component<Props, S
         const body = JSON.stringify({
             command: this.props.command,
         })
-
         api.EncodeNewAssetCommand(body, (data: any) => { this.setState({ encoding_result: data }); })
     }
     //required for security, set pass to null
@@ -42,24 +41,26 @@ export class DestroyAssetClassPopupConfirmation extends React.Component<Props, S
         return false
     }
 
+    close_info() {
+        this.props.cancel_callback()
+    }
+
     render() {
         if (!this.state.encoding_result.sucess) {
             return <InfoPopup title={'Error'} info={this.state.encoding_result.message} close_callback={this.props.cancel_callback} show_popup={true} language={this.props.language} />
         }
-
         return (<Modal show={true} onHide={() => { }}>
             <Modal.Header closeButton>
-                <Modal.Title>Please Ensure you want to destroy the following asset!</Modal.Title>
+                <Modal.Title>Please ensure the following information is correct</Modal.Title>
 
             </Modal.Header>
             <Modal.Body>
 
-                <span>Destroy Asset</span>
+                <span>Transfer NFT</span>
                 <dl className="dl-horizontal">
-                    <dt>Asset Name :</dt> <dd>{this.props.class.class_name}</dd>
-                    <dt>Asset Description :</dt> <dd>{this.props.class.class_description}</dd>
-                    <dt>Asset ID :</dt> <dd>{this.props.class.txid}</dd>
-                    <dt>Asset Action:</dt> <dd>Testroy</dd>
+                    <dt>Class Name :</dt> <dd>{this.props.class.class_name}</dd>
+                    <dt>Class Action:</dt> <dd>Transfer</dd>
+                    <dt>Destination:</dt> <dd>{this.props.command.destination!.username}</dd>
 
                 </dl>
 
@@ -76,7 +77,7 @@ export class DestroyAssetClassPopupConfirmation extends React.Component<Props, S
 
                     <button type="button" className="btn btn-default btn-success" onClick={() => {
                         this.props.continue_callback(this.state.encoding_result)
-                    }}>Destroy</button>
+                    }}>Transfer</button>
                 </div>
             </Modal.Footer>
         </Modal>

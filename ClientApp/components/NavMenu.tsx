@@ -137,13 +137,13 @@ export class NavMenu extends React.Component<Props, NavMenuState> {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to={'/Assets'} className='link' data-toggle={this.state.mobile ? 'collapse' : null} data-target='.navbar-collapse' activeClassName='active'>
-                                <span className='glyphicon glyphicon-tag'></span> Assets
+                            <NavLink to={'/NFTs'} className='link' data-toggle={this.state.mobile ? 'collapse' : null} data-target='.navbar-collapse' activeClassName='active'>
+                                <span className='glyphicon glyphicon-tag'></span> NFTs
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to={'/AssetClass'} className='link' data-toggle={this.state.mobile ? 'collapse' : null} data-target='.navbar-collapse' activeClassName='active'>
-                                <span className='glyphicon glyphicon-list-alt'></span> Asset Groups
+                            <NavLink to={'/NFTgroups'} className='link' data-toggle={this.state.mobile ? 'collapse' : null} data-target='.navbar-collapse' activeClassName='active'>
+                                <span className='glyphicon glyphicon-list-alt'></span> NFT Groups
                             </NavLink>
                         </li>
                         <li>

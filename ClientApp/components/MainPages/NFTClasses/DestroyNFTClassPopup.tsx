@@ -1,25 +1,23 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import t from '../../Language/Language'
-import { Asset, asset_command, blank_asset_command, asset_command_type, AssetClass } from '../_Interfaces/Assets'
+import { NFT, NFT_command, blank_asset_command, asset_command_type, NFTClass } from '../_Interfaces/Assets'
 import { InfoPopup } from '../../Global/InfoPopup'
 import * as Settings from '../../Global/settings'
 import { GetInputPopup } from '../../Global/GetInputPopup'
 import { Modal } from 'react-bootstrap'
 import { User, blank_user } from "../_Interfaces/iUser"
-import { SelectUser } from "../../Global/SelectUser"
 import * as settings from "../../Global/settings"
 import { SmartTxSendResultComponent } from "../../Global/SmartTxSendResultComponent"
-import { TransferAssetClassPopupConfirmation } from "./TransferAssetClassPopupConfirmation"
-
+import { DestroyAssetClassPopupConfirmation } from './DestroyNFTClassPopupConfirmation';
 interface Props {
-    class: AssetClass
+    class: NFTClass
     close_callback: any;
     sucess_callback: any;
     language: number;
 }
 interface State {
-    command: asset_command
+    command: NFT_command
 
     //info popup
     info_title: string
@@ -29,8 +27,6 @@ interface State {
     confirm_name: string
     confirm_id: string
 
-    show_select_user: boolean
-
     // stage 2 - confirm info
     show_confirmation: boolean
     hex_data: string
@@ -39,10 +35,9 @@ interface State {
     // stage 3 - try send SmartTx
 
     show_result: boolean
-    issueto_display_name: string
 }
 
-export class TransferAssetClassPopup extends React.Component<Props, State>{
+export class DestroyAssetClassPopup extends React.Component<Props, State>{
     public static defaultProps: Partial<Props> = {
     }
 
@@ -53,16 +48,14 @@ export class TransferAssetClassPopup extends React.Component<Props, State>{
             info_body: "",
             show_info: false,
             //
-            confirm_id: "",
-            confirm_name: "",
-
             command: {
                 destination: undefined,
                 amount: undefined,
                 asset_id: this.props.class.txid,
-                command_type: asset_command_type.transfer,
+                command_type: asset_command_type.destroy,
             },
-            show_select_user: false,
+            confirm_name: "",
+            confirm_id: "",
 
             //
             show_confirmation: false,
@@ -72,19 +65,11 @@ export class TransferAssetClassPopup extends React.Component<Props, State>{
             show_result: false,
 
             //
-            issueto_display_name: "",
         };
     }
 
     close() {
         this.props.close_callback(true)
-    }
-
-    set_user(u: User) {
-        if (u == undefined) { return }
-        this.setState({ issueto_display_name: "User:" + u.username + " Address:" + u.address })
-        this.setState({ command: { ...this.state.command, destination: u } })
-        this.setState({ show_select_user: false })
     }
 
     validate() {
@@ -97,26 +82,26 @@ export class TransferAssetClassPopup extends React.Component<Props, State>{
             return;
         }
 
-        // chesks that asset is transferable
-        if (!this.props.class.class_transferable) {
-            this.setState({ show_info: true, info_title: "Error", info_body: "This asset class is non-transferable!" })
-            return;
-        }
+        // Destroy command validation
 
-        let can_transfer: boolean = false
-        if (this.props.class.class_transferable) {
-            if (this.props.class.owner!.address == settings.current_identity.address) {
-                can_transfer = true;
+        // if base permission is false, then below operators are false.
+        
+        var owner_destroy_ok: boolean = this.props.class.class_can_owner_destroy;
+               
+        // check current identity agains owner
+        if (this.props.class.owner == undefined) {
+            //owner can't destory if owner is undefined
+            owner_destroy_ok = false;
+        }
+        else {
+            //assuming owner is defined
+            if (this.props.class.owner.address != settings.current_identity.address) {
+                owner_destroy_ok = false;
             }
         }
-        if (!can_transfer) {
-            this.setState({ show_info: true, info_title: "Error", info_body: "You do not have permission to transfer this asset class!" })
-            return;
-        }
 
-        // checks that destination is set
-        if (this.state.command.destination == undefined) {
-            this.setState({ show_info: true, info_title: "Error", info_body: "You must select a person to transfer this asset class to!" })
+        if (!owner_destroy_ok) {
+            this.setState({ show_info: true, info_title: "Error", info_body: "You do not have the permissions to destroy this NFT!" })
             return;
         }
 
@@ -130,10 +115,6 @@ export class TransferAssetClassPopup extends React.Component<Props, State>{
         this.setState({ hex_data: res.hex, fee: res.cost, show_confirmation: false, show_result: true })
     }
 
-    close_select_user() {
-        this.setState({ show_select_user: false })
-    }
-
     fail() {
         this.setState({ hex_data: "", fee: 0, show_confirmation: false, show_result: false })
     }
@@ -144,7 +125,7 @@ export class TransferAssetClassPopup extends React.Component<Props, State>{
 
     select_content() {
         if (this.state.show_confirmation) {
-            return <TransferAssetClassPopupConfirmation class={this.props.class} command={this.state.command} cancel_callback={() => this.setState({ show_confirmation: false })} continue_callback={this.send.bind(this)} language={this.props.language} />
+            return <DestroyAssetClassPopupConfirmation class={this.props.class} command={this.state.command} cancel_callback={this.cancel_confirmation.bind(this)} continue_callback={this.send.bind(this)} language={this.props.language} />
         }
         if (this.state.show_result) {
             console.log(this.state)
@@ -157,34 +138,26 @@ export class TransferAssetClassPopup extends React.Component<Props, State>{
 
         return (<Modal backdrop={"static"} show={true} onHide={this.props.close_callback}>
             <Modal.Header closeButton>
-                <Modal.Title>Transfer Asset</Modal.Title>
+                <Modal.Title>Destroy NFT</Modal.Title>
                 <dl className="dl-horizontal">
                     <dt>Name :</dt> <dd>{this.props.class.class_name}</dd>
-                    <dt>Description :</dt> <dd>{this.props.class.class_description}</dd>
-                    <dt>Owner :</dt> <dd>{this.props.class.owner!.username}</dd>
                     <dt>ID :</dt> <dd>{this.props.class.txid}</dd>
+                    <dt>Owner :</dt> <dd>{this.props.class.owner!.username}</dd>
+                    <dt>ID :</dt> <dd>{this.props.class.creator.username}</dd>
                 </dl>
 
             </Modal.Header>
             <Modal.Body>
 
-                <p />
-
+                <span>Destroying an NFT is an irriviersable action.</span>
+                <span>Please enter the NFT name and ID below to confirm</span>
                 <div className="input-group">
-                    <span className="input-group-addon" id="basic-addon1">Transfer To:</span>
-                    <input type="text" className="form-control" placeholder="Click to edit" aria-describedby="basic-addon1" required={true} name="username" value={this.state.issueto_display_name} onClick={e => { this.setState({ show_select_user: true }) }} ></input>
-
-                </div>
-                <p />
-                <span>Transfering an asset is an irriviersable action.</span>
-                <span>Please enter the asset name and ID below to confirm</span>
-                <div className="input-group">
-                    <span className="input-group-addon" id="basic-addon1">Asset Name*:</span>
+                    <span className="input-group-addon" id="basic-addon1">NFT Name*:</span>
                     <input type="text" className="form-control" placeholder="Name" aria-describedby="basic-addon1" required={true} name="username" value={this.state.confirm_name} onChange={e => { this.setState({ confirm_name: e.target.value }) }} ></input>
 
                 </div>
                 <div className="input-group">
-                    <span className="input-group-addon" id="basic-addon1">Asset ID:</span>
+                    <span className="input-group-addon" id="basic-addon1">NFT ID:</span>
                     <input type="text" className="form-control" placeholder="ID" aria-describedby="basic-addon1" required={true} name="username" value={this.state.confirm_id} onChange={e => { this.setState({ confirm_id: e.target.value }) }} ></input>
 
                 </div>
@@ -194,14 +167,9 @@ export class TransferAssetClassPopup extends React.Component<Props, State>{
                 <div className="btn-toolbar" role="group" aria-label="...">
                     <button type="button" className="btn btn-default btn-danger" onClick={() => { this.props.close_callback() }}>Cancel</button>
 
-                    <button type="button" className="btn btn-default btn-success" onClick={this.validate.bind(this)}>Transfer</button>
+                    <button type="button" className="btn btn-default btn-success" onClick={this.validate.bind(this)}>Destroy</button>
                 </div>
             </Modal.Footer>
-            {this.state.show_select_user ?
-                <SelectUser cancel_callback={this.close_select_user.bind(this)} return_callback={this.set_user.bind(this)} language={this.props.language} />
-                : null
-            }
-
 
         </Modal>
         )
