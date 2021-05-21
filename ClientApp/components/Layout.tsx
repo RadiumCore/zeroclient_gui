@@ -97,15 +97,12 @@ export class Layout extends React.Component<LayoutProps, LayoutState> {
 
 
         if (!this.state.sync_complete) {
-            let content = this.rendersmartchain()
+            let content = this.rendersmartchainsyncing()
             return <div className='container-fluid' >
                 {content}
             </div>;
         }
 
-       
-
-        
 
         content = this.rendermain();
         return <div className='container-fluid'>
@@ -119,7 +116,7 @@ export class Layout extends React.Component<LayoutProps, LayoutState> {
     renderloading() {
         return <Loading callback={this.LoadCompleteCallback.bind(this)} />
     }
-    rendersmartchain() {
+    rendersmartchainsyncing() {
         return <div >
             <SmartChainSyncing synced_callback={this.SyncCompleteCallback.bind(this)} />
         </div>

@@ -49,7 +49,7 @@ export class Loading extends React.Component<LoadingProps, LoadingState> {
             this.setState({ data: value });
         })
         
-        if (this.state.data.action == "Sync Complete") {
+        if (this.state.data.action != "Sync Complete") {
             this.props.callback(true);
             clearInterval(this.state.intervaltick);
         }
