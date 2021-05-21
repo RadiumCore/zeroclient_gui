@@ -145,10 +145,19 @@ html, body, #app, #app > div {
         background-color: #1cb667;
     }
 
+@media (min-width: 768px) {
+    .navbar-justify {
+        margin: 0 auto;
+        display: table;
+        table-layout: fixed;
+        float: none;
+    }
+}  
+
 .main-page {
     color: black;
     background: #777;
-    height: calc(100vh - 0px);
+    height: inherit;
 }
 
 .main-page-head {

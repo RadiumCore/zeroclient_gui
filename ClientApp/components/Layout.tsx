@@ -8,6 +8,7 @@ import * as api from './Global/API'
 import { Record } from "./MainPages/Record/Record"
 import { Standalone_User } from "./MainPages/Users/User"
 import { Block } from './MainPages/_Interfaces/iBLock'
+const image = require('../../Assets/Validity-256.png');
 export interface LayoutProps {
     children?: React.ReactNode;
 }
@@ -131,11 +132,10 @@ export class Layout extends React.Component<LayoutProps, LayoutState> {
     }
 
     rendermain() {
-        return <div className='row'>
-            <div className='col-sm-2 '>
+        return <div className='row'>           
+            <div className='col-sm-12 main-page'>
+                <img src={image} className="img-fluid inherit-size" /><span className=""></span>
                 <NavMenu />
-            </div>
-            <div className='col-sm-10 main-page'>
                 {this.props.children}
             </div>
         </div>
