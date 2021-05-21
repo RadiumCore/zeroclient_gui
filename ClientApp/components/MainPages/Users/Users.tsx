@@ -34,16 +34,13 @@ export class Users extends React.Component<RouteComponentProps<{}> | undefined, 
     }
 
     get_content() {
-        return <span>
-            <div className="main-page-head">
-                <h1>{t[this.state.language].Users}</h1>
-            </div>
+        return <span>           
             <div className="main-page-body">
                 <UserTable mobile={this.state.mobile} defaultPageSize={-1} showPagination={true} language={this.state.language} />
 
             </div>
             <div className="main-page-foot">
-                <span><h4>To create a new user, click 'new user' in the login tab</h4></span>
+                <span><h4>Double click a user for additional information</h4></span>
             </div>
         </span>
     }

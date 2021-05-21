@@ -142,8 +142,7 @@ export class UserTable extends React.Component<Props, UserTableState> {
 
         ]
 
-        return <div className="outside-table-div">
-            <h5>Filtering</h5>
+        return <div className="outside-table-div">           
             {this.props.mobile ?
                 <div className="row">
                     <div className="form-group col-xs-6">

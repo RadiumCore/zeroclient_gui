@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { InfoPopup } from './Global/InfoPopup'
 import * as settings from './Global/settings'
-const image = require('../../Assets/Validity-256.png');
+const image = require('../../Assets/Validity-512.png');
 interface NavMenuState {
     user: string;
     webonly: boolean

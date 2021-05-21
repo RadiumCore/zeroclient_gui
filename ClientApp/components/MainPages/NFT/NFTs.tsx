@@ -78,28 +78,11 @@ export class Assets extends React.Component<RouteComponentProps<{}> | undefined,
     }
 
     get_content() {
-        return <span>
-            <div className="main-page-head">
-                <h1>NFTs</h1>
-            </div>
+        return <span>           
             <div className="main-page-body" >
                 <AssetTable mobile={this.state.mobile} defaultPageSize={-1} showPagination={true} language={this.state.language} />
 
-            </div>
-            <div className="main-page-foot" >
-                <button type="button" className="btn btn-default " onClick={this.ShowCreateAsset.bind(this)}>Create An NFT</button>
-                <button type="button" className="btn btn-default " onClick={this.ShowCreateAssetClass.bind(this)}>Create An NFT Class</button>
-
-            </div>
-
-            {this.state.show_create ?
-                <CreateAssetPopup close_callback={this.CloseCreateAsset.bind(this)} language={this.state.language} />
-                : null
-            }
-            {this.state.show_create_class ?
-                <CreateClassPopup close_callback={this.CloseCreateAssetClass.bind(this)} language={this.state.language} />
-                : null
-            }
+            </div>                        
             {this.state.show_info ?
                 <InfoPopup title={this.state.info_title} info={this.state.info_body} close_callback={() => { this.setState({ show_info: false }) }} show_popup={true} language={this.state.language} />
                 : null

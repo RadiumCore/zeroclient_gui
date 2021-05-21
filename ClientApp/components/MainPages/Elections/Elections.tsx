@@ -40,20 +40,10 @@ export class Elections extends React.Component<RouteComponentProps<{}> | undefin
     }
 
     get_content() {
-        return <span>
-            <div className="main-page-head">
-                <h1>Elections</h1>
-            </div>
+        return <span>          
             <div className="main-page-body" >
-                <ElectionTable mobile={this.state.mobile} defaultPageSize={-1} showPagination={true} language={this.state.language} />
-
-                <button type="button" className="btn btn-default " onClick={this.ShowCreateElection.bind(this)}>Create An Election</button>
-            </div>
-            {this.state.show_create ?
-                <CreateElectionPopup close_callback={this.CloseCreateElection.bind(this)} language={this.state.language} />
-                : null
-            }
-            <div className="main-page-foot" />
+                <ElectionTable mobile={this.state.mobile} defaultPageSize={-1} showPagination={true} language={this.state.language} />                
+            </div> 
         </span>
     }
 

@@ -156,8 +156,7 @@ export class ElectionTable extends React.Component<Props, ElectionTableState> {
 
         ]
 
-        return <div className="outside-table-div">
-            <h5>Filtering</h5>
+        return <div className="outside-table-div">          
             {Settings.current_identity.address == "" ? null : <label>
                 <input type="checkbox" checked={this.state.show_all} onChange={e => {
                     this.setState({

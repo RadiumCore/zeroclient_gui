@@ -47,25 +47,10 @@ export class Records extends React.Component<RouteComponentProps<{}> | undefined
     }
 
     get_content() {
-        return <span>
-            <div className="main-page-head">
-                <h1>Signed Files</h1>
-            </div>
+        return <span>           
             <div className="main-page-body" >
-                <RecordTable mobile={this.state.mobile} defaultPageSize={-1} showPagination={true} language={this.state.language} />
-
-                <button type="button" className="btn btn-default" onClick={() => { this.ShowSignFile() }}>Sign a File</button>
-                <button type="button" className="btn btn-default" onClick={() => { this.ShowVerifyFile() }}>Verify a File</button>
-            </div>
-            {this.state.ShowSignFile ?
-                <SignFilePopup close_callback={this.CloseSignFile.bind(this)} language={this.state.language} />
-                : null
-            }
-            {this.state.ShowVerifyFile ?
-                <VerifyFilePopup close_callback={this.CloseVerifyFile.bind(this)} language={this.state.language} />
-                : null
-            }
-            <div className="main-page-foot" />
+                <RecordTable mobile={this.state.mobile} defaultPageSize={-1} showPagination={true} language={this.state.language} />              
+            </div>  
         </span>
     }
 
