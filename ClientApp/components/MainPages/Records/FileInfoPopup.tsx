@@ -1,76 +1,84 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
-import t from '../../Language/Language'
-import { TrueFalseIcon } from '../../Global/TrueFalseIcon'
-import { UnixToDate } from '../../Global/UnixToDate'
-import { iFileHash } from '../_Interfaces/iFileHash'
 import { Modal } from 'react-bootstrap'
 import * as api from '../../Global/API'
+import { UnixToDate } from '../../Global/UnixToDate'
+import { iFileHash, blank_hash } from '../_Interfaces/iFileHash'
 interface Props {
-    hash: string;
-
     close_callback: any;
     language: number;
+    hash: string;
 }
-interface FileInfoPopupState {
-    file: iFileHash
-    load_complete: boolean
+interface state {
+    title: string;
+    result: iFileHash;
+    loading: boolean;
+    username: string;
 }
-export class FileInfoPopup extends React.Component<Props, FileInfoPopupState>{
+
+export class FileInfoPopup extends React.Component<Props, state>{
     constructor(props: Props) {
         super(props);
         this.state = {
-            file: {
-                title: "",
-                hash: "",
-                username: "",
-                txid: "",
-                creator: "",
-                block: 0,
-                unixtime: 0,
-            }, load_complete: false
+            title: "",
+            result: blank_hash,
+            loading: true,
+            username: ""
         };
-        api.GetFileHash(this.props.hash, (data: any) => { this.setState({ file: data, load_complete: true }); })
-    }
-    //required for security, set pass to null
-
-    close() {
-        this.props.close_callback(true)
+        api.GetFileHash(this.props.hash, (data: any) => { this.setState({ result: data, loading: false }); })
     }
 
-    Should_show(st: string): boolean {
-        if (typeof (st) == 'string' && st.length > 0)
-            return true;
-
-        return false
+    back() {
+        this.props.close_callback()
     }
 
-    render() {
+    get_content() {
+        if (this.state.loading) {
+            setTimeout(() => { this.get_content(); }, 50);
+        }
+        if (this.state.result.hash == "") {
+            return this.render_fail()
+        }
+        else { return this.render_sucess() }
+    }
+
+    render_fail() {
         return <Modal show={true} onHide={() => { }}>
             <Modal.Header closeButton>
-                <Modal.Title>File </Modal.Title>
+                <Modal.Title> <h4>Unknown File! Procede with caution </h4></Modal.Title>
 
             </Modal.Header>
             <Modal.Body>
-                {this.state.load_complete ? <dl className="dl-horizontal">
-                    <dt>Hash :</dt><dd>{this.state.file.hash}</dd>
-                    {this.Should_show(this.state.file.title) ? <span><dt>Title :</dt> <dd>{this.state.file.title}</dd></span> : null}
-                    <dt>{t[this.props.language].Username} :</dt><dd>{this.state.file.username}</dd>
-                    <dt>TXID :</dt><dd>{this.state.file.txid}</dd>
-                    <dt>{t[this.props.language].Block} :</dt><dd>{this.state.file.block}</dd>
-                    <dt>Date :</dt> <dd> <UnixToDate unix={this.state.file.unixtime} /></dd>
-                </dl>
-                    :
-                    <span>Loading...</span>}
 
             </Modal.Body>
             <Modal.Footer>
-                <div className="btn-toolbar" role="group" aria-label="...">
-                    <button onClick={() => { this.props.close_callback() }}>Close</button>
-
-                </div>
+                <button type="button" className="btn btn-default btn-danger" onClick={this.back.bind(this)}>Back</button>
 
             </Modal.Footer>
         </Modal>
+    }
+    render_sucess() {
+        return <Modal show={true} onHide={() => { }}>
+            <Modal.Header closeButton>
+                <Modal.Title> <h4> File </h4></Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <dl className="dl-horizontal">
+                    <dt>Title :</dt> <dd>{this.state.result.title}</dd>
+                    <dt>File Hash :</dt> <dd>{this.state.result.hash}</dd>
+                    <dt>Signing Identity:</dt> <dd>{this.state.result.username}</dd>
+                    <dt>Signing Address:</dt> <dd>{this.state.result.creator}</dd>
+                    <dt>Signing Date:</dt> <dd><UnixToDate unix={this.state.result.unixtime} /></dd>
+                    <dt>Signing Txid:</dt> <dd> {this.state.result.txid} </dd>
+                </dl></Modal.Body>
+            <Modal.Footer>
+                <button type="button" className="btn btn-default btn-danger" onClick={this.back.bind(this)}>Back</button>
+
+            </Modal.Footer>
+        </Modal>
+    }
+
+    render() {
+        let content = this.get_content()
+        return content
     }
 }

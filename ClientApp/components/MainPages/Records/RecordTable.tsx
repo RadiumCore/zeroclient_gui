@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css'
 import t from '../../Language/Language'
-import { VerifyFileResult } from './VerifyFileResult'
+import { FileInfoPopup } from './FileInfoPopup'
 import { UnixToDate } from '../../Global/UnixToDate'
-import { TrueFalseIcon } from '../../Global/TrueFalseIcon'
 import { iFileHash } from '../_Interfaces/iFileHash'
 import * as Settings from '../../Global/settings'
 import * as statics from '../../Global/statics'
@@ -263,7 +261,7 @@ export class RecordTable extends React.Component<Props, FileTableState> {
                 }
 
                 {this.state.ShowFile ?
-                    <VerifyFileResult hash={this.state.selected_file} close_callback={this.CloseViewUser.bind(this)} language={this.props.language} />
+                    <FileInfoPopup hash={this.state.selected_file} close_callback={this.CloseViewUser.bind(this)} language={this.props.language} />
                     : null
                 }
 
