@@ -8,7 +8,7 @@ import * as api from './Global/API'
 import { Record } from "./MainPages/Record/Record"
 import { Standalone_User } from "./MainPages/Users/User"
 import { Block } from './MainPages/_Interfaces/iBLock'
-const image = require('../../Assets/Validity-256.png');
+const image = require('../../Assets/main_banner.png');
 export interface LayoutProps {
     children?: React.ReactNode;
 }
