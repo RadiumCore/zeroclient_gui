@@ -105,14 +105,13 @@ export class ElectionInfo extends React.Component<Props, ElectionInfoPopupState>
         const columns = [
             {
                 Header: 'Candidate',
-                accessor: 'text'
+                accessor: 'text',
+                Cell: (row: any) => <div style={{ textAlign: "right" }}>{row.value}</div>
             },
             {
                 Header: "Votes",
                 accessor: 'votes',
-                Cell: (row: any) => (
-                    <span>{row.value.length}</span>
-                )
+                Cell: (row: any) => <div style={{ textAlign: "right" }}>{row.value.length}</div>
             },
 
         ]
@@ -152,12 +151,8 @@ export class ElectionInfo extends React.Component<Props, ElectionInfoPopupState>
                 </dl>
 
             </Modal.Body>
-            <Modal.Footer>
-                <div className="btn-toolbar" role="group" aria-label="...">
-                    <button type="button" className="btn btn-default btn-success" onClick={() => { this.open_confirm_vote() }}>Cast Vote</button>
+            <Modal.Footer>                                  
                     <button type="button" className="btn btn-default btn-danger" onClick={this.close.bind(this)}>Close</button>
-
-                </div>
 
             </Modal.Footer>
             {this.state.show_info ?
