@@ -1,11 +1,6 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
-import t from '../../Language/Language'
-import { User } from '../_Interfaces/iUser'
 import { Modal } from 'react-bootstrap'
 import * as api from '../../Global/API'
-import { LoadingModal } from '../../Global/LoadingModal'
-import * as statics from '../../Global/statics'
 import { UnixToDate } from '../../Global/UnixToDate'
 import { iFileHash, blank_hash } from '../_Interfaces/iFileHash'
 interface Props {
@@ -38,7 +33,7 @@ export class VerifyFileResult extends React.Component<Props, state>{
 
     get_content() {
         if (this.state.loading) {
-            return <LoadingModal close_callback={this.back.bind(this)} />
+            setTimeout(() => { this.get_content(); }, 50);
         }
         if (this.state.result.hash == "") {
             return this.render_fail()
@@ -88,8 +83,4 @@ export class VerifyFileResult extends React.Component<Props, state>{
         let content = this.get_content()
         return content
     }
-}
-interface result {
-    hex: string
-    cost: number
 }
