@@ -240,9 +240,7 @@ _Pvt_Extensions
 
 config.conf
 
-wwwroot/dist/main.js.map
 
-wwwroot/dist/main.js
 
 ipfs.exe
 
