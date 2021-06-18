@@ -2,7 +2,6 @@ import * as React from 'react';
 import { NavMenu } from './NavMenu';
 import { Loading } from './MainPages/Loading/Loading';
 import { FindingAPI } from './MainPages/Loading/FindingAPI';
-import { SmartChainSyncing } from './MainPages/Loading/SmartChainSyncing';
 import * as settings from './Global/settings'
 import * as api from './Global/API'
 import { Record } from "./MainPages/Record/Record"
@@ -97,12 +96,7 @@ export class Layout extends React.Component<LayoutProps, LayoutState> {
         
 
 
-        if (!this.state.sync_complete) {
-            let content = this.rendersmartchainsyncing()
-            return <div className='container-fluid' >
-                {content}
-            </div>;
-        }
+       
 
 
         content = this.rendermain();
@@ -117,11 +111,7 @@ export class Layout extends React.Component<LayoutProps, LayoutState> {
     renderloading() {
         return <Loading callback={this.LoadCompleteCallback.bind(this)} />
     }
-    rendersmartchainsyncing() {
-        return <div >
-            <SmartChainSyncing synced_callback={this.SyncCompleteCallback.bind(this)} />
-        </div>
-    }
+   
 
     render_record() {
         return <Record location={window.location.href}  />

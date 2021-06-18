@@ -2,7 +2,6 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { ElectionTable } from './ElectionsTable';
 import t from "../../Language/Language";
-import { SmartChainSyncing } from '../Loading/SmartChainSyncing'
 
 import { CreateElectionPopup } from './CreateElectionPopup'
 interface UsersState {

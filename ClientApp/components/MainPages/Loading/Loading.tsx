@@ -31,7 +31,7 @@ export class Loading extends React.Component<LoadingProps, LoadingState> {
         super(props);
         this.state = {
             intervaltick: [], language: 0, primary_text: " ", secondary_text: " ", loading_bar_text: "", loading_bar_vis: false, loading_bar_pos: 0, data: {
-                message: "",
+                message: "Awaiting API connection",
                 progress: 0,
             },
             wallet_connected: false,
@@ -85,9 +85,8 @@ export class Loading extends React.Component<LoadingProps, LoadingState> {
                         <h1>Validity Web Client</h1>
 
                     </div>
-                    <div className="row">
-                        <h3 className="text-center">Setting Up, Please wait! (loading)</h3>
-                        <h4 className="text-center">{this.state.data.message}</h4>
+                    <div className="row">                        
+                        <h3 className="text-center">{this.state.data.message + " " + this.state.data.progress + "%"}</h3>
                         <ProgressBar bsStyle="success" now={this.state.data.progress} />
                     </div>
 
