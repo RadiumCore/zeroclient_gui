@@ -4,7 +4,6 @@ import { RecordTable } from './RecordTable';
 import t from "../../Language/Language";
 import { SignFilePopup } from './SignFilePopup'
 import { VerifyFilePopup } from './VerifyFIlePopup'
-import { SmartChainSyncing } from '../Loading/SmartChainSyncing'
 interface UsersState {
     loading: boolean;
     language: number;

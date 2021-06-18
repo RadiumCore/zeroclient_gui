@@ -3,7 +3,6 @@ import { RouteComponentProps } from 'react-router';
 import { UserTable } from './UserTable';
 import t from "../../Language/Language";
 import { CreateUserPopup } from './CreateUserPopup'
-import { SmartChainSyncing } from '../Loading/SmartChainSyncing'
 import { InfoPopup } from '../../Global/InfoPopup'
 import * as settings from '../../Global/settings'
 interface UsersState {

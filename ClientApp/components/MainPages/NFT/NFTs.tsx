@@ -4,7 +4,6 @@ import { AssetTable } from './NFTTable';
 import t from "../../Language/Language";
 import { CreateAssetPopup } from './CreateNFTPopup'
 import { CreateClassPopup } from '../NFTClasses/CreateClassPopup'
-import { SmartChainSyncing } from '../Loading/SmartChainSyncing'
 import { InfoPopup } from '../../Global/InfoPopup'
 import * as settings from '../../Global/settings'
 interface State {
