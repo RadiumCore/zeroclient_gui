@@ -185,7 +185,7 @@ export function FilteredUsers(_body: any, callback: any) {
 }
 
 export function GetSetupInfo(callback: any) {
-    pub_get_json('GetSetupInfo', callback);
+    pub_get_json('status', callback);
 }
 
 export function SyncInfo(callback: any) {
