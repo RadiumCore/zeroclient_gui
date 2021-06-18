@@ -31,7 +31,7 @@ export class Loading extends React.Component<LoadingProps, LoadingState> {
         super(props);
         this.state = {
             intervaltick: [], language: 0, primary_text: " ", secondary_text: " ", loading_bar_text: "", loading_bar_vis: false, loading_bar_pos: 0, data: {
-                action: "",
+                message: "",
                 progress: 0,
             },
             wallet_connected: false,
@@ -49,7 +49,7 @@ export class Loading extends React.Component<LoadingProps, LoadingState> {
             this.setState({ data: value });
         })
         
-        if (this.state.data.action != "Sync Complete") {
+        if (this.state.data.message == "SmartChain Ready") {
             this.props.callback(true);
             clearInterval(this.state.intervaltick);
         }
@@ -87,7 +87,7 @@ export class Loading extends React.Component<LoadingProps, LoadingState> {
                     </div>
                     <div className="row">
                         <h3 className="text-center">Setting Up, Please wait! (loading)</h3>
-                        <h4 className="text-center">{this.state.data.action}</h4>
+                        <h4 className="text-center">{this.state.data.message}</h4>
                         <ProgressBar bsStyle="success" now={this.state.data.progress} />
                     </div>
 
@@ -103,6 +103,6 @@ export class Loading extends React.Component<LoadingProps, LoadingState> {
 }
 
 interface setup_data {
-    action: string;
+    message: string;
     progress: number;
 }
