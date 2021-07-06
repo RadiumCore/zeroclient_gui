@@ -72,7 +72,7 @@ export class AssetClassTable extends React.Component<Props, State> {
                 owner: Settings.current_identity.address,
             })
 
-            api.FilteredAssetClasses(body, (data: any) => { this.setState({ classes: data, loading: false }); })
+            api.FilterAssetClass(body, (data: any) => { this.setState({ classes: data, loading: false }); })
         }
     }
     tick() {
@@ -158,16 +158,9 @@ export class AssetClassTable extends React.Component<Props, State> {
     }
 
     filter() {
-        if (this.state.show_all) {
-            const body = JSON.stringify({
-                name: this.state.name,
-                creator: this.state.creator,
-                id: this.state.id,
-                description: this.state.description,
-                owner: "",
-            })
+        if (this.state.show_all) {           
 
-            api.FilteredAssetClasses(body, (data: any) => { this.setState({ classes: data, loading: false }); })
+            api.AllAssetClasses( (data: any) => { this.setState({ classes: data, loading: false }); })
         }
         else {
             const body = JSON.stringify({
@@ -177,7 +170,7 @@ export class AssetClassTable extends React.Component<Props, State> {
                 description: this.state.description,
                 owner: Settings.current_identity.address,
             })
-            api.FilteredAssetClasses(body, (data: any) => { this.setState({ classes: data, loading: false }); })
+            api.FilterAssetClass(body, (data: any) => { this.setState({ classes: data, loading: false }); })
         }
     }
     //need to get the filter values into an interface to post
@@ -246,7 +239,7 @@ export class AssetClassTable extends React.Component<Props, State> {
                     <div className="form-group col-xs-3">
                         <div className="input-group">
                             <span className="input-group-addon" id="basic-addon1">Creator</span>
-                            <input type="text" className="form-control" placeholder="Creator" aria-describedby="basic-addon1" name="creator" value={this.state.description} onChange={evt => this.handleInputChange(evt)}></input>
+                            <input type="text" className="form-control" placeholder="Creator" aria-describedby="basic-addon1" name="creator" value={this.state.creator} onChange={evt => this.handleInputChange(evt)}></input>
                         </div>
                     </div>
                     <div className="form-group col-xs-3">
