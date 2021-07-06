@@ -49,7 +49,7 @@ export class Loading extends React.Component<LoadingProps, LoadingState> {
             this.setState({ data: value });
         })
         
-        if (this.state.data.message == "SmartChain Ready") {
+        if (this.state.data.message == "UTXO Ready") {
             this.props.callback(true);
             clearInterval(this.state.intervaltick);
         }
