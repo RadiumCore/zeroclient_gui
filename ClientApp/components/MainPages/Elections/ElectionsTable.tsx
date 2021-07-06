@@ -270,7 +270,7 @@ export class ElectionTable extends React.Component<Props, ElectionTableState> {
                 }
 
                 {this.state.ShowElection ?
-                    <ElectionInfo data-backdrop="static" show_me={true} hash={this.state.selected_election} close_callback={this.CloseViewElection.bind(this)} language={this.props.language} />
+                    <ElectionInfo data-backdrop="static" hash={this.state.selected_election} close_callback={this.CloseViewElection.bind(this)} language={this.props.language} />
                     : null
                 }
 

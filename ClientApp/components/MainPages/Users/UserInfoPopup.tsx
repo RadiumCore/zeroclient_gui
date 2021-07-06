@@ -41,7 +41,7 @@ export class UserInfoPopup extends React.Component<Props, UserInfoPopupState>{
     render() {
         const prof_url = "https://ipfs.io/ipfs/" + this.state.user.profile_immage
         return (
-            <Modal show={true} onHide={() => { this.props.close_callback() }}>
+            <Modal show={this.state.load_complete} onHide={() => { this.props.close_callback() }}>
                 <Modal.Header closeButton>
                     <div className="col-md-4">
                         {this.state.user.profile_immage != null ? <img src={prof_url} alt={icon48} className="img-responsive img-thumbnail" /> : null}

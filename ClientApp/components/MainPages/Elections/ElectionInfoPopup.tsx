@@ -16,9 +16,7 @@ import * as api from '../../Global/API'
 import { SmartTxSendResultComponent } from '../../Global/SmartTxSendResultComponent'
 
 interface Props {
-    hash: string;
-
-    show_me: boolean
+    hash: string;   
     close_callback: any;
     language: number;
 }
@@ -117,7 +115,7 @@ export class ElectionInfo extends React.Component<Props, ElectionInfoPopupState>
 
         ]
 
-        return (<Modal backdrop={"static"} show={this.props.show_me} onHide={this.props.close_callback}>
+        return (<Modal backdrop={"static"} show={this.state.load_complete} onHide={this.props.close_callback}>
             <Modal.Header closeButton>
                 <Modal.Title>{this.state.election.title}</Modal.Title>
 

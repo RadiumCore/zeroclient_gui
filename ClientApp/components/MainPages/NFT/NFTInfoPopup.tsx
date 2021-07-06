@@ -116,13 +116,13 @@ export class AssetInfoPopup extends React.Component<Props, State>{
             return <InfoPopup title={this.state.info_title} info={this.state.info_body} show_popup={this.state.show_info} close_callback={() => this.setState({ show_info: false })} language={this.props.language} />
         }
 
-        return (<Modal backdrop={"static"} show={true} onHide={this.props.close_callback}>
+        return (<Modal backdrop={"static"} show={this.state.load_complete} onHide={this.props.close_callback}>
             <Modal.Header closeButton>
                 <Modal.Title>NFT Information</Modal.Title>
 
             </Modal.Header>
             <Modal.Body>
-                {this.state.load_complete ? <dl className="dl-horizontal" >
+                <dl className="dl-horizontal" >
                     <dt>Name :</dt><dd>{this.state.asset.name}</dd>
                     <dt>Description :</dt><dd>{this.state.asset.description}</dd>
                     {this.state.asset.asset_class != undefined ? <span>
@@ -136,9 +136,7 @@ export class AssetInfoPopup extends React.Component<Props, State>{
                     <dt>Can Owner Transfer :</dt> <dd><TrueFalseIcon state={this.state.asset.can_owner_transfer} /></dd>
                     <dt>Can Creator Destroy :</dt> <dd><TrueFalseIcon state={this.state.asset.can_creator_destroy} /></dd>
 
-                </dl >
-                    :
-                    <span>Loading...</span>}
+                </dl >                   
 
                 <div className="btn-toolbar" role="group" aria-label="...">
                     {this.can_destroy() ? <button type="button" className="btn btn-default btn-danger" onClick={this.open_destroy_asset.bind(this)} >Destroy Asset</button> : null}
