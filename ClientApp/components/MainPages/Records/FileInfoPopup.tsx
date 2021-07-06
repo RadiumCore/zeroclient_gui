@@ -11,7 +11,7 @@ interface Props {
 interface state {
     title: string;
     result: iFileHash;
-    loading: boolean;
+    load_complete: boolean;
     username: string;
 }
 
@@ -21,10 +21,10 @@ export class FileInfoPopup extends React.Component<Props, state>{
         this.state = {
             title: "",
             result: blank_hash,
-            loading: true,
+            load_complete: false,
             username: ""
         };
-        api.GetFileHash(this.props.hash, (data: any) => { this.setState({ result: data, loading: false }); })
+        api.GetFileHash(this.props.hash, (data: any) => { this.setState({ result: data, load_complete: true }); })
     }
 
     back() {
@@ -32,7 +32,7 @@ export class FileInfoPopup extends React.Component<Props, state>{
     }
 
     get_content() {
-        if (this.state.loading) {
+        if (this.state.load_complete == false) {
             setTimeout(() => { this.get_content(); }, 50);
         }
         if (this.state.result.hash == "") {
@@ -42,7 +42,7 @@ export class FileInfoPopup extends React.Component<Props, state>{
     }
 
     render_fail() {
-        return <Modal show={true} onHide={() => { }}>
+        return <Modal show={this.state.load_complete} onHide={() => { }}>
             <Modal.Header closeButton>
                 <Modal.Title> <h4>Unknown File! Procede with caution </h4></Modal.Title>
 
@@ -57,7 +57,7 @@ export class FileInfoPopup extends React.Component<Props, state>{
         </Modal>
     }
     render_sucess() {
-        return <Modal show={true} onHide={() => { }}>
+        return <Modal show={this.state.load_complete} onHide={() => { }}>
             <Modal.Header closeButton>
                 <Modal.Title> <h4> File </h4></Modal.Title>
             </Modal.Header>

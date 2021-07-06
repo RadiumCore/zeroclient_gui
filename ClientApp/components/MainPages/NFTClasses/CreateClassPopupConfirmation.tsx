@@ -17,7 +17,7 @@ interface Props {
 }
 interface State {
     encoding_result: result;
-    loading: boolean;
+    load_complete: boolean;
 }
 
 export class CreateClassPopupConfirmation extends React.Component<Props, State>{
@@ -25,10 +25,10 @@ export class CreateClassPopupConfirmation extends React.Component<Props, State>{
         super(props);
         this.state = {
             encoding_result: blank_result,
-            loading: true,
+            load_complete: false,
         };
         const body = JSON.stringify({ class: this.props.class })
-        api.EncodeNewAssetClass(body, (data: any) => { this.setState({ encoding_result: data, loading: false }); })
+        api.EncodeNewAssetClass(body, (data: any) => { this.setState({ encoding_result: data, load_complete: true }); })
     }
     //required for security, set pass to null
 
@@ -47,7 +47,7 @@ export class CreateClassPopupConfirmation extends React.Component<Props, State>{
         if (!this.state.encoding_result.sucess) {
             return <InfoPopup title={'Error'} info={this.state.encoding_result.message} close_callback={this.props.cancel_callback} show_popup={true} language={this.props.language} />
         }
-        return (<Modal show={true} onHide={() => { }}>
+        return (<Modal show={this.state.load_complete} onHide={() => { }}>
             <Modal.Header closeButton>
                 <Modal.Title>Please ensure the following information is correct</Modal.Title>
 

@@ -128,7 +128,7 @@ export class AssetClassInfoPopup extends React.Component<Props, State>{
             return <InfoPopup title={this.state.info_title} info={this.state.info_body} show_popup={this.state.show_info} close_callback={() => this.setState({ show_info: false })} language={this.props.language} />
         }
 
-        return (<Modal backdrop={"static"} show={true} onHide={this.props.close_callback}>
+        return (<Modal backdrop={"static"} show={this.state.load_complete} onHide={this.props.close_callback}>
             <Modal.Header closeButton>
                 <Modal.Title>NFT Group Information</Modal.Title>
 
