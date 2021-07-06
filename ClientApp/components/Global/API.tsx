@@ -164,10 +164,6 @@ export function AllAssetClasses(callback: any) {
     pub_get_json('getallassetclassses', callback)
 }
 
-export function FilteredAssetClasses(body: any, callback: any) {
-    pub_get_json('getallassetclassses', callback)
-}
-
 export function AssetClass(asset_ID: any, callback: any) {
     pub_get_json('getassetclass/' + asset_ID, callback)
 }
