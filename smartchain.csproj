@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="morelinq" Version="3.3.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NBitcoin\NBitcoin.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UTXOserver\" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  
+</Project>

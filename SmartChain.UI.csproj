@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>3.4</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
@@ -8,8 +8,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Ipfs.Api" Version="0.23.6" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.6" />
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.8.5" />
@@ -76,6 +76,9 @@
   </Target>
   <ItemGroup>
     <None Include="wwwroot\dist\theme.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\smartchain\smartchain.csproj" />
   </ItemGroup> 
   <ItemGroup>
     <Content Update="electron.manifest.json">

@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29020.237
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31521.260
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartChain.UI", "SmartChain.UI.csproj", "{B9B95D97-7CA1-4160-AF98-6BA96FA9E8BA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smartchain", "..\smartchain\smartchain.csproj", "{46422D2B-8A64-4017-9838-A0BE86A76C36}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBitcoin", "..\NBitcoin\NBitcoin.csproj", "{21B306EE-170F-45CA-A5E5-5FF61EFC4397}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{B9B95D97-7CA1-4160-AF98-6BA96FA9E8BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9B95D97-7CA1-4160-AF98-6BA96FA9E8BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9B95D97-7CA1-4160-AF98-6BA96FA9E8BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46422D2B-8A64-4017-9838-A0BE86A76C36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46422D2B-8A64-4017-9838-A0BE86A76C36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46422D2B-8A64-4017-9838-A0BE86A76C36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46422D2B-8A64-4017-9838-A0BE86A76C36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21B306EE-170F-45CA-A5E5-5FF61EFC4397}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21B306EE-170F-45CA-A5E5-5FF61EFC4397}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21B306EE-170F-45CA-A5E5-5FF61EFC4397}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21B306EE-170F-45CA-A5E5-5FF61EFC4397}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,9 @@
+using GUI;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using smartchain;
 using System;
 using System.IO;
 using System.Net;
@@ -64,6 +66,40 @@ namespace SmartChain.Web
             BuildWebHost(args, config).RunAsync();
 
             // setup logging
+            Vars.logger.level = smartchain.LogWriter.LogLevel.normal;
+            Vars.logger.add_consumer(Vars.WalletInterface);
+            Vars.logger.add_consumer(Vars.SmartChainInterface);
+            Vars.logger.add_consumer(Vars.WalletInterface.WalletManager);
+            Vars.logger.add_consumer(Vars.ipfs_interface);
+
+
+            Vars.ipfs_interface.StartIpfs();
+            Vars.SmartChainInterface.event_pinipfshash += Vars.ipfs_interface.pin;
+
+            Vars.WalletInterface.initialize(Vars.config.lookup("rpc_user"), Vars.config.lookup("rpc_pass"), Vars.config.lookup("rpc_ip"), Vars.config.lookup("rpc_port"), false);
+
+            Vars.SmartChainInterface.Initialize(Vars.config.lookup("rpc_user"), Vars.config.lookup("rpc_pass"), Vars.config.lookup("rpc_ip"), Vars.config.lookup("rpc_port"));
+
+            NetworkCredential creds = new NetworkCredential(Vars.config.lookup("rpc_user"), Vars.config.lookup("rpc_pass"));
+            Uri url = new Uri("http://" + Vars.config.lookup("rpc_ip") + ":" + Vars.config.lookup("rpc_port"));
+
+            Vars.bcMain = new BitnetClient(url, creds);
+
+
+
+            while (!Vars.WalletInterface.walletModel.synced)
+                System.Threading.Thread.Sleep(10);
+
+            Vars.SmartChainInterface.StartScThreads(null, null);
+
+            while (!Vars.SmartChainInterface.SCSynced)
+                System.Threading.Thread.Sleep(10);
+            Utxo_Server.StartServer(Vars.config);
+            while (!Utxo_Server.synced)
+                System.Threading.Thread.Sleep(10);
+
+            Vars.WalletInterface.NewBlock += Vars.Send_smart_tx_que;
+
 
             shutdown_Event.Reset();
             shutdown_Event.WaitOne();
